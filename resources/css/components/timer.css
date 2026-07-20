@@ -1,0 +1,14 @@
+.timer-digit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  padding: 0.25rem 0.5rem;
+  background: #0E1123;
+  border: 1px solid #262B44;
+  border-radius: 0.5rem;
+}
+
+.timer-sep {
+  @apply text-amber-500 font-heading text-2xl mx-1;
+}

@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.admin-sidebar {
+  @apply fixed left-0 top-0 h-full w-64 bg-surface border-r border-outline z-40 pt-20;
+}
+
+.admin-content {
+  @apply ml-64 p-6 min-h-screen;
+}
