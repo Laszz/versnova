@@ -1,29 +1,20 @@
-document.addEventListener('alpine:init', () => {
-    Alpine.data('theme', () => ({
-        dark: true,
+(function () {
+    var key = 'versnova-theme';
 
-        init() {
-            const stored = localStorage.getItem('versnova-theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    function getTheme() {
+        var stored = localStorage.getItem(key);
+        if (stored) return stored === 'dark';
+        return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
 
-            this.dark = stored ? stored === 'dark' : prefersDark;
-            this.apply();
-
+    function apply(theme) {
+        if (theme) {
             document.documentElement.classList.add('dark');
-        },
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        localStorage.setItem(key, theme ? 'dark' : 'light');
+    }
 
-        toggle() {
-            this.dark = !this.dark;
-            this.apply();
-        },
-
-        apply() {
-            if (this.dark) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-            localStorage.setItem('versnova-theme', this.dark ? 'dark' : 'light');
-        },
-    }));
-});
+    apply(getTheme());
+})();

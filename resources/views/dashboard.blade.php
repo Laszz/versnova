@@ -6,3 +6,6 @@
     <p class="text-gray-400 mt-2">Selamat datang, {{ Auth::user()->name }}!</p>
 </div>
 @endsection
+
+
+

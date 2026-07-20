@@ -2,76 +2,105 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg: #f5f5f5;
+  --bg-card: #ffffff;
+  --bg-elevated: #eeeeee;
+  --bg-hover: rgba(0,0,0,0.04);
+  --text: #1a1a1a;
+  --text-sec: #666666;
+  --text-muted: #999999;
+  --border: #dddddd;
+  --border-light: rgba(0,0,0,0.06);
+  --accent: #e8484b;
+  --accent-text: #d44042;
+  --accent-soft: rgba(232,72,75,0.08);
+  --overlay: rgba(0,0,0,0.5);
+}
+
+.dark {
+  --bg: #0e0e0e;
+  --bg-card: #1c1b1b;
+  --bg-elevated: #131313;
+  --bg-hover: rgba(255,255,255,0.04);
+  --text: #e5e2e1;
+  --text-sec: #b7b5b4;
+  --text-muted: #666666;
+  --border: rgba(255,255,255,0.1);
+  --border-light: rgba(255,255,255,0.04);
+  --accent: #ff5357;
+  --accent-text: #ffb3af;
+  --accent-soft: rgba(255,83,87,0.1);
+  --overlay: rgba(0,0,0,0.6);
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
   }
-
   body {
-    @apply font-body text-gray-900 dark:text-gray-100 antialiased;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Geist', sans-serif;
   }
-
   ::selection {
-    @apply bg-amber-500/30 text-white;
-  }
-
-  :root {
-    --color-accent: #F59E0B;
-    --color-surface: #121629;
+    background-color: rgba(255, 83, 87, 0.3);
+    color: white;
   }
 }
 
 @layer components {
-  .nova-card {
-    @apply bg-surface border border-outline rounded-card transition-all duration-300;
-  }
+  .bg-card { background-color: var(--bg-card); }
+  .bg-elevated { background-color: var(--bg-elevated); }
+  .bg-hover { background-color: var(--bg-hover); }
+  .bg-accent { background-color: var(--accent); }
+  .text-primary { color: var(--text); }
+  .text-secondary { color: var(--text-sec); }
+  .text-muted { color: var(--text-muted); }
+  .text-accent { color: var(--accent-text); }
+  .border-subtle { border-color: var(--border-light); }
+  .border-default { border-color: var(--border); }
+  .border-accent { border-color: var(--accent); }
 
-  .nova-card:hover {
-    @apply border-amber-500/30;
-    box-shadow: 0 0 20px rgba(245, 158, 11, 0.08);
-  }
-
-  .glass-card {
-    background: rgba(18, 22, 41, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    @apply border border-outline/30 rounded-card;
+  .card-surface {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
   }
 
   .btn-primary {
-    @apply bg-amber-500 text-black font-semibold rounded-btn px-6 py-3 transition-all duration-200;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.5rem;
+    background-color: var(--accent);
+    color: white;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: filter 0.2s;
+    box-shadow: 0 0 20px rgba(255, 83, 87, 0.25);
   }
 
   .btn-primary:hover {
-    @apply bg-amber-600;
-  }
-
-  .btn-primary:active {
-    @apply scale-[0.97];
+    filter: brightness(1.1);
   }
 
   .btn-ghost {
-    @apply border border-outline text-gray-300 font-semibold rounded-btn px-6 py-3 transition-all duration-200;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.5rem;
+    border: 1px solid var(--border);
+    color: var(--text-sec);
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: all 0.2s;
   }
 
   .btn-ghost:hover {
-    @apply bg-surface-bright border-amber-500/30;
-  }
-
-  .badge-hot {
-    @apply bg-danger text-white text-label px-2.5 py-0.5 rounded-pill font-bold uppercase tracking-wider;
-  }
-
-  .badge-sold {
-    @apply bg-gray-800/90 text-gray-400 text-label px-3 py-1 rounded-card font-bold uppercase;
-  }
-
-  .badge-flash {
-    @apply bg-amber-500 text-black text-label px-2.5 py-0.5 rounded-pill font-bold uppercase tracking-wider;
-  }
-
-  .badge-game {
-    @apply bg-surface-bright text-gray-300 text-label px-2.5 py-0.5 rounded-pill;
+    border-color: var(--accent);
+    color: var(--accent-text);
   }
 }
 
@@ -79,7 +108,6 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
-
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;

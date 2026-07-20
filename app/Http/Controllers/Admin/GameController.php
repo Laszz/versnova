@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Game;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class GameController extends Controller
 {
@@ -23,8 +24,12 @@ class GameController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'icon' => 'nullable|string|max:255',
+            'icon' => 'nullable|image|mimes:png,jpg,jpeg,webp,svg|max:2048',
         ]);
+
+        if ($request->hasFile('icon')) {
+            $data['icon'] = $request->file('icon')->store('games', 'public');
+        }
 
         Game::create($data);
 
@@ -40,8 +45,15 @@ class GameController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'icon' => 'nullable|string|max:255',
+            'icon' => 'nullable|image|mimes:png,jpg,jpeg,webp,svg|max:2048',
         ]);
+
+        if ($request->hasFile('icon')) {
+            if ($game->icon) {
+                Storage::disk('public')->delete($game->icon);
+            }
+            $data['icon'] = $request->file('icon')->store('games', 'public');
+        }
 
         $game->update($data);
 
@@ -50,6 +62,9 @@ class GameController extends Controller
 
     public function destroy(Game $game)
     {
+        if ($game->icon) {
+            Storage::disk('public')->delete($game->icon);
+        }
         $game->delete();
         return redirect()->route('admin.games.index')->with('success', 'Game deleted.');
     }

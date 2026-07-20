@@ -1,24 +1,39 @@
 @extends('layouts.app')
 
+@section('title', 'Flashsale')
+
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-section-mobile md:py-section">
-    <div class="bg-gradient-to-br from-amber-500/10 via-surface to-indigo-500/10 border border-amber-500/10 rounded-card p-8 mb-8 text-center">
-        <span class="badge-flash text-sm inline-block mb-3">Flash Sale</span>
-        <h1 class="font-heading text-display-mobile md:text-display text-gray-100">Promo Terbatas</h1>
-        <p class="text-gray-400 mt-2 max-w-lg mx-auto">Diskon besar-besaran untuk akun-akun pilihan. Jangan sampai kehabisan.</p>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
+    {{-- Banner --}}
+    <div class="relative overflow-hidden rounded-xl p-8 md:p-12 mb-8 text-center" style="background: linear-gradient(135deg, rgba(255,83,87,0.15), rgba(255,83,87,0.05)); border: 1px solid rgba(255,83,87,0.2);">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-[#ff5357]/5 rounded-full blur-[80px]"></div>
+        <div class="absolute bottom-0 left-0 w-48 h-48 bg-[#ff5357]/5 rounded-full blur-[80px]"></div>
+
+        <div class="relative">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--accent-soft)] border border-accent text-xs font-mono text-accent uppercase tracking-wider mb-4">
+                <span class="material-symbols-outlined text-sm">local_fire_department</span>
+                Flash Sale
+            </div>
+            <h1 class="text-2xl md:text-3xl font-bold text-primary mb-2">Promo Terbatas</h1>
+            <p class="text-sm text-secondary max-w-md mx-auto">Diskon besar-besaran untuk akun-akun pilihan. Jangan sampai kehabisan.</p>
+        </div>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         @forelse ($flashsale as $account)
             <x-account-card :account="$account" />
         @empty
-            <div class="col-span-full text-center py-16">
-                <p class="text-gray-500">Belum ada flashsale aktif.</p>
-                <a href="{{ route('katalog') }}" class="text-amber-500 hover:underline text-sm mt-2 inline-block">Lihat katalog</a>
+            <div class="col-span-full text-center py-20">
+                <span class="material-symbols-outlined text-5xl text-secondary block mb-4">local_fire_department</span>
+                <p class="text-secondary">Belum ada flashsale aktif.</p>
+                <a href="{{ route('katalog') }}" class="text-sm text-accent hover:underline mt-2 inline-block">Lihat katalog</a>
             </div>
         @endforelse
     </div>
 
-    <div class="mt-6">{{ $flashsale->links() }}</div>
+    <div class="mt-8">{{ $flashsale->links() }}</div>
 </div>
 @endsection
+
+
+

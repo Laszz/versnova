@@ -1,23 +1,26 @@
 @extends('layouts.admin')
 
-@section('content')
-<h1 class="font-heading text-heading text-gray-100 mb-6">Chat Support</h1>
+@section('title', 'Support')
 
-<div class="bg-surface border border-outline rounded-card p-6">
+@section('content')
+<div class="glass-panel rounded-xl p-6">
     @if ($users->count())
-    <div class="space-y-3">
+    <div class="space-y-1">
         @foreach ($users as $u)
-        <div class="flex items-center justify-between p-3 bg-surface-bright rounded-card">
-            <div>
-                <p class="text-gray-200 font-semibold">{{ $u->name }}</p>
-                <p class="text-gray-500 text-sm">{{ $u->email }}</p>
+        <a href="{{ route('chat', $u) }}" class="flex items-center justify-between p-4 rounded-lg hover:bg-white/[0.02] transition-colors group">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-sm text-[#b7b5b4] font-mono">{{ strtoupper(substr($u->name, 0, 1)) }}</div>
+                <div>
+                    <p class="text-sm font-medium text-[#e5e2e1] group-hover:text-[#ffb3af] transition-colors">{{ $u->name }}</p>
+                    <p class="text-xs text-[#b7b5b4]">{{ $u->email }}</p>
+                </div>
             </div>
-            <a href="{{ route('chat', $u) }}" class="text-amber-500 text-sm hover:underline">Chat</a>
-        </div>
+            <span class="material-symbols-outlined text-[#474746] group-hover:text-[#ffb3af] transition-colors text-[20px]">chevron_right</span>
+        </a>
         @endforeach
     </div>
     @else
-    <p class="text-gray-500">Belum ada chat.</p>
+    <div class="text-center py-12"><p class="text-[#b7b5b4]">Belum ada chat.</p></div>
     @endif
 </div>
 @endsection

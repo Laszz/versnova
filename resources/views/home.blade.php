@@ -2,29 +2,60 @@
 
 @section('content')
 {{-- Hero --}}
-<section class="relative overflow-hidden bg-gradient-to-br from-surface via-surface-lowest to-surface">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-section-mobile md:py-section">
+<section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-[#ff5357]/5 via-[var(--bg)] to-[var(--bg)]"></div>
+    <div class="absolute top-20 right-0 w-[500px] h-[500px] bg-[#ff5357]/5 rounded-full blur-[120px]"></div>
+    <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#ff5357]/3 rounded-full blur-[100px]"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 relative">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div class="space-y-6">
-                <h1 class="font-heading text-display-mobile md:text-display text-gray-100 leading-tight">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--accent-soft)] border border-accent text-xs font-mono text-accent uppercase tracking-wider">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#ffb3af]"></span>
+                    Platform Terpercaya
+                </div>
+
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-primary leading-tight">
                     Jual & Sewa<br>
-                    <span class="text-amber-500">Akun Game</span>
+                    <span style="color: #ffb3af;">Akun Game</span>
                 </h1>
-                <p class="text-gray-400 text-body-lg max-w-lg">
+
+                <p class="text-base md:text-lg text-secondary max-w-lg leading-relaxed">
                     Platform terpercaya untuk jual beli dan sewa akun game. Aman, cepat, dan mudah dengan chat langsung ke admin.
                 </p>
-                <div class="flex gap-4">
-                    <a href="{{ route('katalog') }}" class="btn-primary">Cari Akun</a>
-                    <a href="{{ route('flashsale') }}" class="btn-ghost">Flashsale</a>
+
+                <div class="flex gap-4 pt-2">
+                    <a href="{{ route('katalog') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-lg font-medium hover:brightness-110 transition-all" style="box-shadow: 0 0 20px rgba(255,83,87,0.3);">
+                        <span class="material-symbols-outlined text-[18px]">search</span>
+                        Cari Akun
+                    </a>
+                    <a href="{{ route('flashsale') }}" class="inline-flex items-center gap-2 px-6 py-3 border border-default text-secondary rounded-lg font-medium hover:border-accent hover:text-accent transition-all">
+                        <span class="material-symbols-outlined text-[18px]">local_fire_department</span>
+                        Flashsale
+                    </a>
+                </div>
+
+                <div class="flex items-center gap-6 pt-4">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm text-accent">verified</span>
+                        <span class="text-xs text-secondary">Verifikasi Cepat</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm text-accent">security</span>
+                        <span class="text-xs text-secondary">Transaksi Aman</span>
+                    </div>
                 </div>
             </div>
 
+            {{-- Visual --}}
             <div class="hidden lg:flex items-center justify-center">
                 <div class="relative w-80 h-80">
-                    <div class="absolute inset-0 bg-amber-500/10 rounded-full blur-3xl"></div>
-                    <div class="absolute inset-8 bg-gradient-to-br from-amber-500/20 to-indigo-500/20 rounded-full blur-2xl"></div>
+                    <div class="absolute inset-0 bg-[var(--accent-soft)] rounded-full blur-3xl"></div>
+                    <div class="absolute inset-12 bg-gradient-to-br from-[#ff5357]/20 to-transparent rounded-full blur-2xl"></div>
                     <div class="absolute inset-0 flex items-center justify-center">
-                        <span class="font-heading text-[120px] text-amber-500/10 select-none">V</span>
+                        <div class="w-40 h-40 rounded-2xl bg-card border border-subtle flex items-center justify-center" style="backdrop-filter: blur(20px);">
+                            <span style="font-family: 'Space Mono', monospace; font-size: 72px; font-weight: 700; color: #ff5357;">V</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -34,65 +65,93 @@
 
 {{-- Game Categories --}}
 @if ($games->count())
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 md:-mt-12 relative z-10">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
     <div class="flex gap-3 overflow-x-auto no-scrollbar pb-4">
-        <a href="{{ route('katalog') }}" class="whitespace-nowrap px-4 py-2 rounded-pill bg-surface border border-amber-500/30 text-amber-500 font-caption text-sm hover:bg-amber-500/10 transition-colors">Semua Game</a>
+        <a href="{{ route('katalog') }}" class="whitespace-nowrap px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-medium transition-all" style="box-shadow: 0 0 12px rgba(255,83,87,0.2);">Semua Game</a>
         @foreach ($games as $g)
-            <a href="{{ route('katalog.game', $g) }}" class="whitespace-nowrap px-4 py-2 rounded-pill bg-surface border border-outline text-gray-400 font-caption text-sm hover:border-amber-500/30 hover:text-amber-500 transition-colors">{{ $g->name }}</a>
+            <a href="{{ route('katalog.game', $g) }}" class="whitespace-nowrap px-5 py-2.5 rounded-lg border border-default text-sm text-secondary hover:border-accent hover:text-accent transition-all">{{ $g->name }}</a>
         @endforeach
     </div>
 </section>
 @endif
 
+{{-- Stats --}}
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        @php
+            $stats = [
+                ['value' => \App\Models\Account::count(), 'label' => 'Akun Tersedia'],
+                ['value' => \App\Models\Account::where('status', 'available')->count(), 'label' => 'Siap Jual/Sewa'],
+                ['value' => \App\Models\User::count(), 'label' => 'Pengguna'],
+                ['value' => \App\Models\Transaction::count(), 'label' => 'Transaksi'],
+            ];
+        @endphp
+        @foreach ($stats as $s)
+        <div class="bg-card border border-subtle rounded-xl p-5 text-center hover:border-accent transition-all" style="backdrop-filter: blur(12px);">
+            <p class="text-2xl md:text-3xl font-bold text-primary">{{ $s['value'] }}</p>
+            <p class="text-xs text-secondary font-mono uppercase tracking-wider mt-1">{{ $s['label'] }}</p>
+        </div>
+        @endforeach
+    </div>
+</section>
+
 {{-- Featured Accounts --}}
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-section-mobile md:py-section">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
     <div class="flex items-center justify-between mb-8">
         <div>
-            <h2 class="font-heading text-heading text-gray-100">Akun Terbaru</h2>
-            <p class="text-gray-500 text-sm mt-1">Akun game siap jual & sewa</p>
+            <h2 class="text-lg font-bold text-primary">Akun Terbaru</h2>
+            <p class="text-sm text-secondary mt-1">Akun game siap jual & sewa</p>
         </div>
-        <a href="{{ route('katalog') }}" class="text-amber-500 hover:text-amber-400 text-sm font-caption">Lihat Semua</a>
+        <a href="{{ route('katalog') }}" class="text-sm text-accent hover:underline font-mono uppercase tracking-wider">Lihat Semua</a>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         @forelse ($featured as $account)
             <x-account-card :account="$account" />
         @empty
-            <p class="text-gray-500 col-span-full text-center py-12">Belum ada akun tersedia.</p>
+            <div class="col-span-full text-center py-16">
+                <p class="text-secondary">Belum ada akun tersedia.</p>
+            </div>
         @endforelse
     </div>
 </section>
 
 {{-- How it Works --}}
-<section class="bg-surface/50 border-y border-outline/30 py-section-mobile md:py-section">
+<section class="border-t border-subtle py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="font-heading text-heading text-gray-100 text-center mb-12">Cara Kerja</h2>
+        <div class="text-center mb-12">
+            <h2 class="text-lg font-bold text-primary">Cara Kerja</h2>
+            <p class="text-sm text-secondary mt-1">Mulai dalam 3 langkah mudah</p>
+        </div>
 
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="text-center space-y-3">
-                <div class="w-14 h-14 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto">
-                    <svg class="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-card border border-subtle rounded-xl p-6 text-center hover:border-accent transition-all">
+                <div class="w-12 h-12 rounded-xl bg-[var(--accent-soft)] flex items-center justify-center mx-auto mb-4">
+                    <span class="material-symbols-outlined text-accent text-[24px]">search</span>
                 </div>
-                <h3 class="font-heading text-xl text-gray-200">Cari Akun</h3>
-                <p class="text-gray-500 text-sm">Telusuri katalog, filter per game, cari akun impianmu.</p>
+                <h3 class="text-base font-semibold text-primary mb-2">Cari Akun</h3>
+                <p class="text-sm text-secondary leading-relaxed">Telusuri katalog, filter per game, cari akun impianmu.</p>
             </div>
 
-            <div class="text-center space-y-3">
-                <div class="w-14 h-14 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto">
-                    <svg class="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <div class="bg-card border border-subtle rounded-xl p-6 text-center hover:border-accent transition-all">
+                <div class="w-12 h-12 rounded-xl bg-[var(--accent-soft)] flex items-center justify-center mx-auto mb-4">
+                    <span class="material-symbols-outlined text-accent text-[24px]">verified</span>
                 </div>
-                <h3 class="font-heading text-xl text-gray-200">Transaksi Aman</h3>
-                <p class="text-gray-500 text-sm">Pembayaran via transfer, akun diamankan sampai konfirmasi.</p>
+                <h3 class="text-base font-semibold text-primary mb-2">Transaksi Aman</h3>
+                <p class="text-sm text-secondary leading-relaxed">Pembayaran via transfer, akun diamankan sampai konfirmasi.</p>
             </div>
 
-            <div class="text-center space-y-3">
-                <div class="w-14 h-14 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto">
-                    <svg class="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            <div class="bg-card border border-subtle rounded-xl p-6 text-center hover:border-accent transition-all">
+                <div class="w-12 h-12 rounded-xl bg-[var(--accent-soft)] flex items-center justify-center mx-auto mb-4">
+                    <span class="material-symbols-outlined text-accent text-[24px]">chat</span>
                 </div>
-                <h3 class="font-heading text-xl text-gray-200">Chat Admin</h3>
-                <p class="text-gray-500 text-sm">Tanya langsung ke admin via chat real-time.</p>
+                <h3 class="text-base font-semibold text-primary mb-2">Chat Admin</h3>
+                <p class="text-sm text-secondary leading-relaxed">Tanya langsung ke admin via chat real-time.</p>
             </div>
         </div>
     </div>
 </section>
 @endsection
+
+
+

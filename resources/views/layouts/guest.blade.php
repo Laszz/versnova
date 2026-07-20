@@ -18,9 +18,10 @@
             <span class="font-heading text-display-mobile text-amber-500">Versnova</span>
         </a>
 
-        <div class="bg-surface border border-outline rounded-card p-6">
+        <div class="card-surface rounded-card p-6">
             {{ $slot }}
         </div>
     </div>
 </body>
 </html>
+

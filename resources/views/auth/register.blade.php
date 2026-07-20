@@ -34,3 +34,6 @@
         <a href="{{ route('login') }}" class="text-amber-500 hover:text-amber-400 transition-colors">Login</a>
     </p>
 </x-guest-layout>
+
+
+
