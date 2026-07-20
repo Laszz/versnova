@@ -9,10 +9,19 @@ use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $accounts = Account::with('game', 'primaryImage')->latest()->paginate(20);
-        return view('admin.accounts.index', compact('accounts'));
+        $type = $request->get('type');
+        $query = Account::with('game', 'primaryImage');
+
+        if ($type === 'jual') {
+            $query->whereNotNull('price_sell')->whereNull('price_rent');
+        } elseif ($type === 'sewa') {
+            $query->whereNotNull('price_rent')->whereNull('price_sell');
+        }
+
+        $accounts = $query->latest()->paginate(20);
+        return view('admin.accounts.index', compact('accounts', 'type'));
     }
 
     public function create()
@@ -23,7 +32,15 @@ class AccountController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $rules = $request->type === 'rent' ? [
+            'price_rent' => 'required|numeric|min:0',
+            'price_sell' => 'nullable',
+        ] : [
+            'price_sell' => 'required|numeric|min:0',
+            'price_rent' => 'nullable',
+        ];
+
+        $data = $request->validate(array_merge($rules, [
             'game_id' => 'required|exists:games,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -33,10 +50,18 @@ class AccountController extends Controller
             'login_method' => 'nullable|string|max:100',
             'level' => 'nullable|string|max:50',
             'skin_info' => 'nullable|string',
-            'price_sell' => 'nullable|numeric|min:0',
-            'price_rent' => 'nullable|numeric|min:0',
             'status' => 'required|string|in:available,reserved,sold,rented',
-        ]);
+            'discount_amount' => 'nullable|numeric|min:0',
+            'discount_until' => 'nullable|date',
+            'discount_start' => 'nullable|date',
+        ]));
+
+        if ($request->filled('discount_amount') && $request->filled('price_sell')) {
+            $data['discount_price'] = $request->price_sell - $request->discount_amount;
+            $data['discount_percent'] = round(($request->discount_amount / $request->price_sell) * 100);
+        }
+
+        unset($data['discount_amount'], $data['type']);
 
         Account::create($data);
 
@@ -69,8 +94,23 @@ class AccountController extends Controller
             'skin_info' => 'nullable|string',
             'price_sell' => 'nullable|numeric|min:0',
             'price_rent' => 'nullable|numeric|min:0',
+            'discount_amount' => 'nullable|numeric|min:0',
+            'discount_until' => 'nullable|date',
+            'discount_start' => 'nullable|date',
             'status' => 'required|string|in:available,reserved,sold,rented',
         ]);
+
+        if ($request->filled('discount_amount') && $request->filled('price_sell')) {
+            $data['discount_price'] = $request->price_sell - $request->discount_amount;
+            $data['discount_percent'] = round(($request->discount_amount / $request->price_sell) * 100);
+        } else {
+            $data['discount_percent'] = null;
+            $data['discount_price'] = null;
+            $data['discount_until'] = null;
+            $data['discount_start'] = null;
+        }
+
+        unset($data['discount_amount']);
 
         $account->update($data);
 

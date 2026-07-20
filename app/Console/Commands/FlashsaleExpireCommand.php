@@ -12,12 +12,14 @@ class FlashsaleExpireCommand extends Command
 
     public function handle()
     {
-        $count = Account::whereNotNull('discount_until')
+        Account::whereNotNull('discount_until')
             ->where('discount_until', '<', now())
-            ->each(function ($a) {
-                $a->update(['discount_percent' => null, 'discount_price' => null, 'discount_until' => null]);
-            });
+            ->update(['discount_percent' => null, 'discount_price' => null, 'discount_until' => null, 'discount_start' => null]);
 
-        $this->info("Expired {$count} flashsales.");
+        Account::whereNotNull('discount_start')
+            ->where('discount_start', '>', now())
+            ->update(['discount_percent' => null, 'discount_price' => null, 'discount_until' => null, 'discount_start' => null]);
+
+        $this->info('Flashsales expired.');
     }
 }

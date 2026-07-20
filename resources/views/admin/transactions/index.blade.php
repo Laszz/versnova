@@ -58,3 +58,5 @@
     <div class="mt-5">{{ $transactions->links() }}</div>
 @endif
 @endsection
+
+

@@ -60,3 +60,5 @@
     <div class="mt-5">{{ $games->links() }}</div>
 @endif
 @endsection
+
+

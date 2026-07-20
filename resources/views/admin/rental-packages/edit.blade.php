@@ -38,7 +38,7 @@
                 <label class="block text-sm font-medium text-[#e5e2e1] mb-1.5">Harga</label>
                 <div class="relative">
                     <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#b7b5b4] text-sm font-mono">Rp</span>
-                    <input type="number" name="price" value="{{ $rentalPackage->price }}" step="0.01" class="input-admin pl-10" required>
+                    <input type="text" name="price" inputmode="numeric" value="{{ number_format($rentalPackage->price, 0, ',', '.') }}" class="input-admin pl-10 input-rupiah" required>
                 </div>
             </div>
 
@@ -95,3 +95,5 @@
     </div>
 </div>
 @endsection
+
+

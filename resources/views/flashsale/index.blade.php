@@ -33,7 +33,31 @@
 
     <div class="mt-8">{{ $flashsale->links() }}</div>
 </div>
+
+<script>
+    document.addEventListener('alpine:init', function() {
+        Alpine.data('countdown', function(until) {
+            return {
+                display: '--:--:--',
+                init() {
+                    this.update();
+                    setInterval(() => this.update(), 1000);
+                },
+                update() {
+                    var end = new Date(until.replace(' ', 'T')).getTime();
+                    var now = new Date().getTime();
+                    var diff = end - now;
+                    if (diff <= 0) { this.display = '00:00:00'; return; }
+                    var h = Math.floor(diff / (1000 * 60 * 60));
+                    var m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    var s = Math.floor((diff % (1000 * 60)) / 1000);
+                    this.display =
+                        String(h).padStart(2, '0') + ':' +
+                        String(m).padStart(2, '0') + ':' +
+                        String(s).padStart(2, '0');
+                }
+            };
+        });
+    });
+</script>
 @endsection
-
-
-

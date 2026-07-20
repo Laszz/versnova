@@ -44,11 +44,14 @@
         <form method="POST" action="{{ route('transactions.beli', $account) }}">
             @csrf
             <p class="text-sm text-secondary mb-4">Pembayaran via transfer bank ke rekening admin. Detail rekening akan ditampilkan setelah checkout.</p>
-            <button type="submit" class="w-full text-center px-5 py-3 bg-accent text-white rounded-lg font-medium hover:brightness-110 transition-all" style="box-shadow: 0 0 15px rgba(255,83,87,0.3);">Checkout</button>
+            <button type="submit" class="w-full text-center px-5 py-3 bg-accent text-white rounded-lg font-medium hover:brightness-110 transition-all">Checkout</button>
         </form>
     </div>
 </div>
 @endsection
+
+
+
 
 
 

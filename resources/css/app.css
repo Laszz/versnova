@@ -1,8 +1,10 @@
+@import './pages/layout-app.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
+html {
   --bg: #f5f5f5;
   --bg-card: #ffffff;
   --bg-elevated: #eeeeee;
@@ -38,10 +40,12 @@
   html {
     scroll-behavior: smooth;
   }
+
+  [x-cloak] { display: none !important; }
   body {
+    font-family: 'Geist', sans-serif;
     background-color: var(--bg);
     color: var(--text);
-    font-family: 'Geist', sans-serif;
   }
   ::selection {
     background-color: rgba(255, 83, 87, 0.3);
@@ -50,21 +54,22 @@
 }
 
 @layer components {
-  .bg-card { background-color: var(--bg-card); }
-  .bg-elevated { background-color: var(--bg-elevated); }
-  .bg-hover { background-color: var(--bg-hover); }
+  .bg-card { background-color: var(--bg-card); transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease !important; }
+  .bg-elevated { background-color: var(--bg-elevated); transition: background-color 0.2s ease !important; }
+  .bg-hover { background-color: var(--bg-hover); transition: background-color 0.2s ease !important; }
   .bg-accent { background-color: var(--accent); }
-  .text-primary { color: var(--text); }
-  .text-secondary { color: var(--text-sec); }
-  .text-muted { color: var(--text-muted); }
-  .text-accent { color: var(--accent-text); }
-  .border-subtle { border-color: var(--border-light); }
-  .border-default { border-color: var(--border); }
-  .border-accent { border-color: var(--accent); }
+  .text-primary { color: var(--text); transition: color 0.2s ease !important; }
+  .text-secondary { color: var(--text-sec); transition: color 0.2s ease !important; }
+  .text-accent { color: var(--accent-text); transition: color 0.2s ease !important; }
+  .text-muted { color: var(--text-muted); transition: color 0.2s ease !important; }
+  .border-subtle { border-color: var(--border-light); transition: border-color 0.2s ease !important; }
+  .border-default { border-color: var(--border); transition: border-color 0.2s ease !important; }
+  .border-accent { border-color: var(--accent); transition: border-color 0.2s ease !important; }
 
   .card-surface {
     background-color: var(--bg-card);
     border: 1px solid var(--border);
+    transition: background-color 0.2s ease, border-color 0.2s ease !important;
   }
 
   .btn-primary {
@@ -77,7 +82,7 @@
     border-radius: 0.5rem;
     font-weight: 500;
     font-size: 0.875rem;
-    transition: filter 0.2s;
+    transition: background-color 0.2s ease, filter 0.2s ease !important;
     box-shadow: 0 0 20px rgba(255, 83, 87, 0.25);
   }
 
@@ -95,7 +100,7 @@
     border-radius: 0.5rem;
     font-weight: 500;
     font-size: 0.875rem;
-    transition: all 0.2s;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
   }
 
   .btn-ghost:hover {
@@ -113,3 +118,4 @@
     scrollbar-width: none;
   }
 }
+

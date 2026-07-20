@@ -25,7 +25,7 @@
                 </p>
 
                 <div class="flex gap-4 pt-2">
-                    <a href="{{ route('katalog') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-lg font-medium hover:brightness-110 transition-all" style="box-shadow: 0 0 20px rgba(255,83,87,0.3);">
+                    <a href="{{ route('katalog') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-lg font-medium hover:brightness-110 transition-all">
                         <span class="material-symbols-outlined text-[18px]">search</span>
                         Cari Akun
                     </a>
@@ -53,7 +53,7 @@
                     <div class="absolute inset-0 bg-[var(--accent-soft)] rounded-full blur-3xl"></div>
                     <div class="absolute inset-12 bg-gradient-to-br from-[#ff5357]/20 to-transparent rounded-full blur-2xl"></div>
                     <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="w-40 h-40 rounded-2xl bg-card border border-subtle flex items-center justify-center" style="backdrop-filter: blur(20px);">
+                        <div class="w-40 h-40 rounded-2xl bg-card border border-subtle flex items-center justify-center">
                             <span style="font-family: 'Space Mono', monospace; font-size: 72px; font-weight: 700; color: #ff5357;">V</span>
                         </div>
                     </div>
@@ -67,33 +67,15 @@
 @if ($games->count())
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
     <div class="flex gap-3 overflow-x-auto no-scrollbar pb-4">
-        <a href="{{ route('katalog') }}" class="whitespace-nowrap px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-medium transition-all" style="box-shadow: 0 0 12px rgba(255,83,87,0.2);">Semua Game</a>
+        <a href="{{ route('katalog') }}" class="whitespace-nowrap px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-medium">Semua Game</a>
         @foreach ($games as $g)
-            <a href="{{ route('katalog.game', $g) }}" class="whitespace-nowrap px-5 py-2.5 rounded-lg border border-default text-sm text-secondary hover:border-accent hover:text-accent transition-all">{{ $g->name }}</a>
+            <a href="{{ route('katalog.game', $g) }}" class="whitespace-nowrap px-5 py-2.5 rounded-lg border border-default text-sm text-secondary hover:border-accent hover:text-accent">{{ $g->name }}</a>
         @endforeach
     </div>
 </section>
 @endif
 
-{{-- Stats --}}
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        @php
-            $stats = [
-                ['value' => \App\Models\Account::count(), 'label' => 'Akun Tersedia'],
-                ['value' => \App\Models\Account::where('status', 'available')->count(), 'label' => 'Siap Jual/Sewa'],
-                ['value' => \App\Models\User::count(), 'label' => 'Pengguna'],
-                ['value' => \App\Models\Transaction::count(), 'label' => 'Transaksi'],
-            ];
-        @endphp
-        @foreach ($stats as $s)
-        <div class="bg-card border border-subtle rounded-xl p-5 text-center hover:border-accent transition-all" style="backdrop-filter: blur(12px);">
-            <p class="text-2xl md:text-3xl font-bold text-primary">{{ $s['value'] }}</p>
-            <p class="text-xs text-secondary font-mono uppercase tracking-wider mt-1">{{ $s['label'] }}</p>
-        </div>
-        @endforeach
-    </div>
-</section>
+
 
 {{-- Featured Accounts --}}
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
@@ -152,6 +134,9 @@
     </div>
 </section>
 @endsection
+
+
+
 
 
 

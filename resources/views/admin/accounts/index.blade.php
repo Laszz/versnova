@@ -4,11 +4,27 @@
 
 @section('content')
 <div class="flex items-center justify-between mb-6">
-    <p class="text-sm text-[#b7b5b4]">Kelola akun game</p>
-    <a href="{{ route('admin.accounts.create') }}" class="flex items-center gap-2 px-4 py-2.5 bg-[#ff5357] text-white rounded-lg text-sm font-medium hover:brightness-110 transition-all" style="box-shadow: 0 0 15px rgba(255,83,87,0.4);">
-        <span class="material-symbols-outlined text-sm">add_circle</span>
-        Tambah Akun
-    </a>
+    <div class="flex gap-2">
+        <a href="{{ route('admin.accounts.index', ['type' => 'jual']) }}" class="px-4 py-2 rounded-lg text-sm font-medium transition-all @if($type === 'jual') bg-[#ff5357] text-white @else bg-[#1c1b1b] border border-white/10 text-[#b7b5b4] hover:border-[#ff5357]/40 @endif">
+            <span class="material-symbols-outlined text-sm align-middle">sell</span> Akun Jual
+        </a>
+        <a href="{{ route('admin.accounts.index', ['type' => 'sewa']) }}" class="px-4 py-2 rounded-lg text-sm font-medium transition-all @if($type === 'sewa') bg-[#ff5357] text-white @else bg-[#1c1b1b] border border-white/10 text-[#b7b5b4] hover:border-[#ff5357]/40 @endif">
+            <span class="material-symbols-outlined text-sm align-middle">schedule</span> Akun Sewa
+        </a>
+        <a href="{{ route('admin.accounts.index') }}" class="px-4 py-2 rounded-lg text-sm font-medium transition-all @if(!$type) bg-[#ff5357] text-white @else bg-[#1c1b1b] border border-white/10 text-[#b7b5b4] hover:border-[#ff5357]/40 @endif">
+            <span class="material-symbols-outlined text-sm align-middle">inventory_2</span> Semua
+        </a>
+    </div>
+    <div class="flex gap-2">
+        <a href="{{ route('admin.accounts.create', ['type' => 'buy']) }}" class="flex items-center gap-1.5 px-4 py-2 bg-[#ff5357] text-white rounded-lg text-sm font-medium hover:brightness-110 transition-all" style="box-shadow: 0 0 12px rgba(255,83,87,0.3);">
+            <span class="material-symbols-outlined text-sm">add_circle</span>
+            Akun Jual
+        </a>
+        <a href="{{ route('admin.accounts.create', ['type' => 'rent']) }}" class="flex items-center gap-1.5 px-4 py-2 border border-white/10 text-[#e5e2e1] rounded-lg text-sm font-medium hover:border-[#ff5357]/40 transition-all">
+            <span class="material-symbols-outlined text-sm">add_circle</span>
+            Akun Sewa
+        </a>
+    </div>
 </div>
 
 <div class="glass-panel rounded-xl overflow-hidden">
@@ -17,7 +33,8 @@
             <tr class="bg-white/[0.02] border-b border-white/5">
                 <th class="text-left px-6 py-4 text-xs font-mono text-[#ffb3af]/70 uppercase">Item</th>
                 <th class="text-left px-6 py-4 text-xs font-mono text-[#ffb3af]/70 uppercase">Game</th>
-                <th class="text-left px-6 py-4 text-xs font-mono text-[#ffb3af]/70 uppercase">Price</th>
+                <th class="text-left px-6 py-4 text-xs font-mono text-[#ffb3af]/70 uppercase">Tipe</th>
+                <th class="text-left px-6 py-4 text-xs font-mono text-[#ffb3af]/70 uppercase">Harga</th>
                 <th class="text-left px-6 py-4 text-xs font-mono text-[#ffb3af]/70 uppercase">Status</th>
                 <th class="text-right px-6 py-4"></th>
             </tr>
@@ -38,6 +55,13 @@
                     </div>
                 </td>
                 <td class="px-6 py-4 text-sm text-[#b7b5b4]">{{ $a->game->name }}</td>
+                <td class="px-6 py-4">
+                    @if ($a->price_sell)
+                        <span class="text-xs px-2 py-0.5 rounded bg-[#ff5357]/10 text-[#ffb3af] font-medium">Jual</span>
+                    @else
+                        <span class="text-xs px-2 py-0.5 rounded border border-white/10 text-secondary font-medium">Sewa</span>
+                    @endif
+                </td>
                 <td class="px-6 py-4 text-sm text-[#e5e2e1] font-mono">Rp{{ number_format($a->price_sell ?? $a->price_rent, 0, ',', '.') }}</td>
                 <td class="px-6 py-4">
                     @php

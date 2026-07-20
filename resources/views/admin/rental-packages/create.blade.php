@@ -36,7 +36,7 @@
                 <label class="block text-sm font-medium text-[#e5e2e1] mb-1.5">Harga</label>
                 <div class="relative">
                     <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#b7b5b4] text-sm font-mono">Rp</span>
-                    <input type="number" name="price" step="0.01" class="input-admin pl-10" placeholder="15000" required>
+                    <input type="text" name="price" inputmode="numeric" class="input-admin pl-10 input-rupiah" placeholder="Rp 15.000" required>
                 </div>
             </div>
 
@@ -101,14 +101,17 @@
         el.addEventListener('input', function () {
             const name = document.querySelector('input[name="name"]').value;
             const hours = document.querySelector('input[name="hours"]').value;
-            const price = document.querySelector('input[name="price"]').value;
+            const priceRaw = document.querySelector('input[name="price"]').value;
+            const priceNum = priceRaw.replace(/\./g, '');
             const preview = document.querySelector('[x-data]');
             if (preview) {
                 preview.__x.$data.name = name;
                 preview.__x.$data.hours = hours;
-                preview.__x.$data.price = price;
+                preview.__x.$data.price = priceNum;
             }
         });
     });
 </script>
 @endsection
+
+

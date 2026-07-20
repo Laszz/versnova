@@ -1,3 +1,5 @@
+@import './pages/layout-admin.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +8,8 @@
   body {
     @apply antialiased;
   }
+
+  [x-cloak] { display: none !important; }
 }
 
 @layer components {
@@ -91,4 +95,9 @@
   .badge-type-rent {
     @apply badge-type bg-white/10 text-[#e5e2e1];
   }
+
+  .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #353534; border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #ff5357; }
 }

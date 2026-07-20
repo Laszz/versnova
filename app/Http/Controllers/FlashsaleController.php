@@ -10,6 +10,7 @@ class FlashsaleController extends Controller
     {
         $flashsale = Account::with('game', 'primaryImage')
             ->where('status', 'available')
+            ->whereNotNull('discount_percent')
             ->whereNotNull('discount_until')
             ->where('discount_until', '>', now())
             ->latest()

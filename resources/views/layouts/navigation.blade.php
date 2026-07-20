@@ -1,12 +1,12 @@
 <nav x-data="{ mobileMenu: false }" class="sticky top-0 z-50 h-16 bg-card/80 backdrop-blur-xl border-b border-subtle">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
-        <div class="flex items-center gap-8">
-            <a href="/" class="font-bold tracking-tight" style="font-family: 'Space Mono', monospace; font-size: 18px; color: #ffb3af;">Versnova</a>
+        <a href="/" class="font-bold tracking-tight shrink-0" style="font-family: 'Space Mono', monospace; font-size: 18px; color: #ffb3af;">Versnova</a>
 
-            <div class="hidden md:flex items-center gap-6">
-                <a href="{{ route('katalog') }}" class="text-sm text-secondary hover:text-accent transition-colors">Katalog</a>
-                <a href="{{ route('flashsale') }}" class="text-sm text-secondary hover:text-accent transition-colors">Flashsale</a>
-            </div>
+        <div class="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
+            <a href="{{ route('katalog') }}" class="text-sm text-secondary hover:text-accent transition-colors">Katalog</a>
+            <a href="{{ route('beli.index') }}" class="text-sm text-secondary hover:text-accent transition-colors">Beli</a>
+            <a href="{{ route('sewa.index') }}" class="text-sm text-secondary hover:text-accent transition-colors">Sewa</a>
+            <a href="{{ route('flashsale') }}" class="text-sm text-secondary hover:text-accent transition-colors">Flashsale</a>
         </div>
 
         <div class="flex items-center gap-2">
@@ -20,6 +20,15 @@
             </button>
 
             @auth
+                <a href="{{ route('chat') }}" class="p-2 text-secondary hover:text-accent transition-colors rounded-lg hover:bg-hover relative" title="Chat">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"/>
+                    </svg>
+                    @php $unreadChat = Auth::user()->receivedMessages()->where('is_read', false)->count(); @endphp
+                    @if ($unreadChat > 0)
+                        <span class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-accent text-white text-[9px] font-bold rounded-full flex items-center justify-center">{{ $unreadChat > 9 ? '9+' : $unreadChat }}</span>
+                    @endif
+                </a>
                 <a href="{{ route('wishlist') }}" class="p-2 text-secondary hover:text-accent transition-colors rounded-lg hover:bg-hover" title="Wishlist">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
@@ -74,40 +83,11 @@
     <div x-show="mobileMenu" x-cloak class="md:hidden bg-card border-b border-subtle">
         <div class="px-4 py-3 space-y-2">
             <a href="{{ route('katalog') }}" class="block text-sm text-secondary hover:text-accent py-2 transition-colors">Katalog</a>
+            <a href="{{ route('beli.index') }}" class="block text-sm text-secondary hover:text-accent py-2 transition-colors">Beli</a>
+            <a href="{{ route('sewa.index') }}" class="block text-sm text-secondary hover:text-accent py-2 transition-colors">Sewa</a>
             <a href="{{ route('flashsale') }}" class="block text-sm text-secondary hover:text-accent py-2 transition-colors">Flashsale</a>
         </div>
     </div>
 </nav>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    var moon = document.getElementById('moonIcon');
-    var sun = document.getElementById('sunIcon');
-    var btn = document.getElementById('themeToggle');
-
-    function updateIcons() {
-        var isDark = document.documentElement.classList.contains('dark');
-        if (moon && sun) {
-            moon.classList.toggle('hidden', !isDark);
-            sun.classList.toggle('hidden', isDark);
-        }
-    }
-
-    updateIcons();
-
-    if (btn) {
-        btn.addEventListener('click', function () {
-            var isDark = document.documentElement.classList.contains('dark');
-            if (isDark) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('versnova-theme', 'light');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('versnova-theme', 'dark');
-            }
-            updateIcons();
-        });
-    }
-});
-</script>
 

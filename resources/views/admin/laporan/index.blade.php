@@ -22,3 +22,5 @@
     <p class="text-sm text-[#b7b5b4]">Laporan detail dengan filter tanggal akan dikembangkan.</p>
 </div>
 @endsection
+
+

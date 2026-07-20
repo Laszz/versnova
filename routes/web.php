@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/katalog', [CatalogController::class, 'index'])->name('katalog');
+Route::get('/beli', [CatalogController::class, 'beli'])->name('beli.index');
+Route::get('/beli/{account:slug}', [CatalogController::class, 'beliShow'])->name('beli.show');
+Route::get('/sewa', [CatalogController::class, 'sewa'])->name('sewa.index');
+Route::get('/sewa/{account:slug}', [CatalogController::class, 'sewaShow'])->name('sewa.show');
 Route::get('/katalog/{game:slug}', [CatalogController::class, 'game'])->name('katalog.game');
 Route::get('/akun/{account:slug}', [CatalogController::class, 'show'])->name('katalog.show');
 
@@ -23,9 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/wishlist/{account}', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
 
     Route::get('/chat', [ChatController::class, 'index'])->name('chat');
+    Route::get('/chat/{user}', [ChatController::class, 'with'])->name('chat.with');
     Route::post('/chat/{user}', [ChatController::class, 'send'])->name('chat.send');
-
-    Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
 
     Route::get('/riwayat', [TransactionController::class, 'riwayat'])->name('riwayat');
 
@@ -49,6 +52,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('admin.users');
     Route::resource('rental-packages', App\Http\Controllers\Admin\RentalPackageController::class)->names('admin.rental-packages');
     Route::get('chat', [App\Http\Controllers\Admin\ChatController::class, 'index'])->name('admin.chat');
+    Route::get('chat/{user}', [App\Http\Controllers\Admin\ChatController::class, 'show'])->name('admin.chat.show');
     Route::get('laporan', [App\Http\Controllers\Admin\LaporanController::class, 'index'])->name('admin.laporan');
 });
 

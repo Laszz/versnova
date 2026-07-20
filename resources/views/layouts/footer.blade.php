@@ -1,19 +1,9 @@
 <footer class=" border-t border-subtle">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="md:col-span-1">
                 <a href="/" style="font-family: 'Space Mono', monospace; font-size: 18px; font-weight: 700; color: #ffb3af;">Versnova</a>
                 <p class="text-secondary text-sm mt-2 max-w-xs">Platform jual beli dan sewa akun game terpercaya. Aman, cepat, dan mudah.</p>
-            </div>
-            <div>
-                <h4 class="text-xs font-mono text-accent uppercase tracking-widest mb-4">Navigasi</h4>
-                <ul class="space-y-2">
-                    <li><a href="{{ route('katalog') }}" class="text-sm text-secondary hover:text-accent transition-colors">Katalog</a></li>
-                    <li><a href="{{ route('flashsale') }}" class="text-sm text-secondary hover:text-accent transition-colors">Flashsale</a></li>
-                    @auth
-                        <li><a href="{{ route('wishlist') }}" class="text-sm text-secondary hover:text-accent transition-colors">Wishlist</a></li>
-                    @endauth
-                </ul>
             </div>
             <div>
                 <h4 class="text-xs font-mono text-accent uppercase tracking-widest mb-4">Bantuan</h4>
@@ -36,6 +26,7 @@
         </div>
     </div>
 </footer>
+
 
 
 

@@ -11,13 +11,14 @@ class Account extends Model
         'game_id', 'slug', 'title', 'description', 'platform', 'server',
         'bind_status', 'login_method', 'level', 'skin_info',
         'price_sell', 'price_rent', 'discount_percent', 'discount_price',
-        'discount_until', 'status', 'sold_at',
+        'discount_until', 'discount_start', 'status', 'sold_at',
     ];
 
     protected function casts(): array
     {
         return [
             'discount_until' => 'datetime',
+            'discount_start' => 'datetime',
             'sold_at' => 'datetime',
             'price_sell' => 'decimal:2',
             'price_rent' => 'decimal:2',

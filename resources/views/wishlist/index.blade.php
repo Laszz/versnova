@@ -12,7 +12,8 @@
     @if ($accounts->count())
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         @foreach ($accounts as $account)
-            <x-account-card :account="$account" />
+            @php $type = $account->price_sell ? 'buy' : ($account->price_rent ? 'rent' : null) @endphp
+            <x-account-card :account="$account" :type="$type" />
         @endforeach
     </div>
     @else
@@ -24,6 +25,8 @@
     @endif
 </div>
 @endsection
+
+
 
 
 

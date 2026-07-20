@@ -1,3 +1,7 @@
+import Alpine from 'alpinejs';
+window.Alpine = Alpine;
+Alpine.start();
+
 import Lenis from 'lenis';
 
 const lenis = new Lenis({
@@ -45,6 +49,38 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Rupiah input formatting
+    document.querySelectorAll('.input-rupiah').forEach(function(el) {
+        function format(v) {
+            var num = v.replace(/[^0-9]/g, '');
+            if (!num) return '';
+            return parseInt(num, 10).toLocaleString('id-ID');
+        }
+
+        function unformat(v) {
+            return v.replace(/\./g, '').replace(',', '.');
+        }
+
+        el.addEventListener('input', function() {
+            var pos = this.selectionStart;
+            var raw = this.value.replace(/[^0-9]/g, '');
+            var before = this.value.length;
+            this.value = format(this.value);
+            var after = this.value.length;
+            if (pos && after > before) this.setSelectionRange(pos + (after - before), pos + (after - before));
+        });
+
+        el.addEventListener('blur', function() {
+            if (this.value) {
+                this.value = format(this.value);
+            }
+        });
+
+        el.closest('form')?.addEventListener('submit', function() {
+            el.value = unformat(el.value);
+        });
+    });
 
     // Close sidebar on Escape
     document.addEventListener('keydown', (e) => {

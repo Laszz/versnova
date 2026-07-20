@@ -4,23 +4,19 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
-    {{-- Breadcrumb --}}
     <div class="flex items-center gap-2 text-sm text-secondary mb-8 font-mono">
-        <a href="{{ route('katalog') }}" class="hover:text-accent transition-colors">Katalog</a>
-        <span>/</span>
-        <a href="{{ route('katalog.game', $account->game) }}" class="hover:text-accent transition-colors">{{ $account->game->name }}</a>
+        <a href="{{ route('beli.index') }}" class="hover:text-accent transition-colors">Beli</a>
         <span>/</span>
         <span class="text-primary truncate max-w-[200px]">{{ $account->title }}</span>
     </div>
 
     <div class="lg:grid lg:grid-cols-12 lg:gap-8 lg:items-start">
-        {{-- Left: Gallery + Specs --}}
         <div class="lg:col-span-7 space-y-4">
-            @php $imgs = $account->images->filter(fn($i) => $i->image_path); @endphp
+            @php $images = $account->images->filter(fn($i) => $i->image_path); @endphp
             <div x-data="{ active: 0 }" class="space-y-3">
                 <div class="aspect-video rounded-xl overflow-hidden bg-card border border-subtle relative">
-                    @if ($imgs->count())
-                        <template x-for="(img, i) in @js($imgs->values())" :key="i">
+                    @if ($images->count())
+                        <template x-for="(img, i) in @js($images->values())" :key="i">
                             <img x-show="active === i" :src="'/storage/' + img.image_path" alt="{{ $account->title }}" class="w-full h-full object-cover absolute inset-0">
                         </template>
                     @else
@@ -30,9 +26,9 @@
                     @endif
                 </div>
 
-                @if ($imgs->count() > 1)
+                @if ($images->count() > 1)
                 <div class="flex gap-2 overflow-x-auto no-scrollbar">
-                    <template x-for="(img, i) in @js($imgs->values())" :key="i">
+                    <template x-for="(img, i) in @js($images->values())" :key="i">
                         <button @click="active = i" :class="active === i ? 'border-accent' : 'border-subtle'" class="w-20 h-14 shrink-0 rounded-lg overflow-hidden border-2 transition-colors">
                             <img :src="'/storage/' + img.image_path" alt="" class="w-full h-full object-cover">
                         </button>
@@ -41,7 +37,6 @@
                 @endif
             </div>
 
-            {{-- Description --}}
             @if ($account->description)
             <div class="bg-card border border-subtle rounded-xl p-6">
                 <h2 class="text-sm font-semibold text-primary mb-2">Deskripsi</h2>
@@ -49,7 +44,6 @@
             </div>
             @endif
 
-            {{-- Specs Tags --}}
             <div class="bg-card border border-subtle rounded-xl p-6">
                 <h2 class="text-sm font-semibold text-primary mb-4">Spesifikasi</h2>
                 <div class="flex flex-wrap gap-2">
@@ -86,7 +80,6 @@
                 </div>
             </div>
 
-            {{-- Skin Info --}}
             @if ($account->skin_info)
             <div class="bg-card border border-subtle rounded-xl p-6">
                 <h2 class="text-sm font-semibold text-primary mb-2">Skin & Items</h2>
@@ -99,39 +92,27 @@
             @endif
         </div>
 
-        {{-- Right: Purchase Widget (Sticky) --}}
         <div class="lg:col-span-5 lg:col-start-9">
             <div class="bg-card border border-accent/30 rounded-xl p-6 lg:sticky lg:top-24 space-y-6">
-                {{-- Header --}}
                 <div class="pb-4 border-b border-subtle">
-                    <div class="flex items-start justify-between gap-3">
-                        <div>
-                            <h1 class="text-lg font-bold text-primary leading-tight">{{ $account->title }}</h1>
-                            <p class="text-xs text-secondary mt-1 font-mono">{{ $account->game->name }}</p>
-                        </div>
-                        @if ($account->discount_percent)
-                            <span class="px-2 py-0.5 rounded text-xs font-mono bg-accent text-white shrink-0">-{{ $account->discount_percent }}%</span>
-                        @endif
-                    </div>
+                    <h1 class="text-lg font-bold text-primary leading-tight">{{ $account->title }}</h1>
+                    <p class="text-xs text-secondary mt-1 font-mono">{{ $account->game->name }}</p>
                 </div>
 
-                {{-- Price --}}
                 <div class="space-y-1">
                     @if ($account->discount_price)
                         <div class="flex items-baseline gap-2">
                             <p class="text-3xl font-bold text-accent">Rp{{ number_format($account->discount_price, 0, ',', '.') }}</p>
-                            <span class="text-sm text-secondary line-through">Rp{{ number_format($account->price_sell ?? $account->price_rent, 0, ',', '.') }}</span>
+                            <span class="text-sm text-secondary line-through">Rp{{ number_format($account->price_sell, 0, ',', '.') }}</span>
+                            @if ($account->discount_percent)
+                                <span class="px-2 py-0.5 rounded text-xs font-mono bg-accent text-white">-{{ $account->discount_percent }}%</span>
+                            @endif
                         </div>
                     @elseif ($account->price_sell)
                         <p class="text-3xl font-bold text-accent">Rp{{ number_format($account->price_sell, 0, ',', '.') }}</p>
                     @endif
-
-                    @if ($account->price_rent)
-                        <p class="text-base text-secondary">Sewa <span class="text-primary font-semibold">Rp{{ number_format($account->price_rent, 0, ',', '.') }}/jam</span></p>
-                    @endif
                 </div>
 
-                {{-- Status --}}
                 <div class="flex items-center gap-2 py-3 px-4 rounded-lg bg-card border border-subtle">
                     <span class="w-2 h-2 rounded-full @if($account->status === 'available') bg-[#10b981] @else bg-secondary/40 @endif"></span>
                     <span class="text-sm text-secondary font-mono">
@@ -142,7 +123,6 @@
                     </span>
                 </div>
 
-                {{-- Seller Info --}}
                 <div class="flex items-center gap-3 py-3 px-4 rounded-lg bg-card border border-subtle">
                     <div class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
                         <span class="material-symbols-outlined text-accent text-lg">verified</span>
@@ -153,18 +133,11 @@
                     </div>
                 </div>
 
-                {{-- Actions --}}
                 <div class="space-y-3">
-                    @if ($account->price_sell && $account->status === 'available')
+                    @if ($account->status === 'available')
                         <a href="{{ route('transactions.beli', $account) }}" class="flex items-center justify-center gap-2 w-full px-5 py-3 bg-accent text-white rounded-lg font-medium hover:brightness-110 transition-all" style="box-shadow: 0 0 15px rgba(255,83,87,0.25);">
                             <span class="material-symbols-outlined text-lg">shopping_bag</span>
                             Beli Sekarang
-                        </a>
-                    @endif
-                    @if ($account->price_rent && $account->status === 'available')
-                        <a href="{{ route('transactions.sewa', $account) }}" class="flex items-center justify-center gap-2 w-full px-5 py-3 border border-accent text-accent rounded-lg font-medium hover:bg-accent/5 transition-all">
-                            <span class="material-symbols-outlined text-lg">schedule</span>
-                            Sewa Akun
                         </a>
                     @endif
                     @auth
@@ -184,34 +157,18 @@
                     @endauth
                 </div>
 
-                {{-- Security --}}
                 <div class="pt-4 border-t border-subtle space-y-2">
                     <div class="flex items-center gap-2 text-xs text-secondary">
                         <span class="material-symbols-outlined text-sm text-accent">verified</span>
                         Pembayaran aman via transfer bank
                     </div>
                     <div class="flex items-center gap-2 text-xs text-secondary">
-                        <span class="material-symbols-outlined text-sm text-accent">support</span>
+                        <span class="material-symbols-outlined text-sm text-accent">chat</span>
                         Chat admin untuk bantuan
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    {{-- Related --}}
-    @if ($related->count())
-    <section class="mt-16">
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="text-sm font-bold text-primary">Akun Lainnya</h2>
-            <a href="{{ route('katalog') }}" class="text-xs text-accent hover:underline font-mono uppercase tracking-wider">Lihat Semua</a>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            @foreach ($related as $r)
-                <x-account-card :account="$r" />
-            @endforeach
-        </div>
-    </section>
-    @endif
 </div>
 @endsection

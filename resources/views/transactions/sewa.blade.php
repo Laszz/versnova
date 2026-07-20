@@ -45,11 +45,14 @@
                 @endforeach
             </div>
 
-            <button type="submit" class="w-full text-center mt-6 px-5 py-3 bg-accent text-white rounded-lg font-medium hover:brightness-110 transition-all" style="box-shadow: 0 0 15px rgba(255,83,87,0.3);">Sewa Sekarang</button>
+            <button type="submit" class="w-full text-center mt-6 px-5 py-3 bg-accent text-white rounded-lg font-medium hover:brightness-110 transition-all">Sewa Sekarang</button>
         </form>
     </div>
 </div>
 @endsection
+
+
+
 
 
 
