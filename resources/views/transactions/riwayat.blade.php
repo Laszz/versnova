@@ -35,11 +35,14 @@
     <div class="text-center py-20">
         <span class="material-symbols-outlined text-5xl text-secondary block mb-4">receipt_long</span>
         <p class="text-secondary">Belum ada transaksi.</p>
-        <a href="{{ route('katalog') }}" class="text-sm text-accent hover:underline mt-2 inline-block">Cari akun</a>
+        <a href="{{ route('produk.index') }}" class="text-sm text-accent hover:underline mt-2 inline-block">Cari akun</a>
     </div>
     @endif
 </div>
 @endsection
+
+
+
 
 
 

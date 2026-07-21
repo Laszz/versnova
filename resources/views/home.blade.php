@@ -25,7 +25,7 @@
                 </p>
 
                 <div class="flex gap-4 pt-2">
-                    <a href="{{ route('katalog') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-lg font-medium hover:brightness-110 transition-all">
+                    <a href="{{ route('produk.index') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-lg font-medium hover:brightness-110 transition-all">
                         <span class="material-symbols-outlined text-[18px]">search</span>
                         Cari Akun
                     </a>
@@ -67,15 +67,10 @@
 @if ($games->count())
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
     <div class="flex gap-3 overflow-x-auto no-scrollbar pb-4">
-        <a href="{{ route('katalog') }}" class="whitespace-nowrap px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-medium">Semua Game</a>
-        @foreach ($games as $g)
-            <a href="{{ route('katalog.game', $g) }}" class="whitespace-nowrap px-5 py-2.5 rounded-lg border border-default text-sm text-secondary hover:border-accent hover:text-accent">{{ $g->name }}</a>
-        @endforeach
+        <a href="{{ route('produk.index') }}" class="whitespace-nowrap px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-medium">Semua Game</a>
     </div>
 </section>
 @endif
-
-
 
 {{-- Featured Accounts --}}
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
@@ -84,17 +79,21 @@
             <h2 class="text-lg font-bold text-primary">Akun Terbaru</h2>
             <p class="text-sm text-secondary mt-1">Akun game siap jual & sewa</p>
         </div>
-        <a href="{{ route('katalog') }}" class="text-sm text-accent hover:underline font-mono uppercase tracking-wider">Lihat Semua</a>
+        <a href="{{ route('produk.index') }}" class="text-sm text-accent hover:underline font-mono uppercase tracking-wider">Lihat Semua</a>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        @forelse ($featured as $account)
-            <x-account-card :account="$account" />
-        @empty
-            <div class="col-span-full text-center py-16">
-                <p class="text-secondary">Belum ada akun tersedia.</p>
+    <div x-data="{ loaded: false }" x-init="setTimeout(() => loaded = true, 200)">
+        <phantom-ui :loading="!loaded">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                @forelse ($featured as $account)
+                    <x-account-card :account="$account" />
+                @empty
+                    <div class="col-span-full text-center py-16">
+                        <p class="text-secondary">Belum ada akun tersedia.</p>
+                    </div>
+                @endforelse
             </div>
-        @endforelse
+        </phantom-ui>
     </div>
 </section>
 
@@ -137,6 +136,10 @@
 
 {{-- Testimonials --}}
 @if ($reviews->count())
+@php
+    $row1 = $reviews->take(5);
+    $row2 = $reviews->count() > 5 ? $reviews->slice(5, 5) : collect();
+@endphp
 <section class="border-t border-subtle py-16 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
         <div class="text-center">
@@ -144,10 +147,11 @@
             <p class="text-sm text-secondary mt-1">Review dari pembeli & penyewa</p>
         </div>
     </div>
-    <div class="relative">
-        <div class="flex gap-6 animate-scroll" style="width: max-content;">
-            {{-- Duplicate for seamless loop --}}
-            @foreach ($reviews as $r)
+
+    {{-- Row 1: right to left --}}
+    <div class="mb-6">
+        <div class="flex gap-6 animate-scroll-rl" style="width: max-content;">
+            @foreach ($row1 as $r)
             <div class="w-72 shrink-0 bg-card border border-subtle rounded-xl p-5">
                 <div class="flex items-center gap-1 mb-2">
                     @for ($i = 1; $i <= 5; $i++)
@@ -161,7 +165,7 @@
                 <p class="text-[10px] text-secondary/60 font-mono">{{ $r->transaction->account->game->name }} &middot; {{ $r->transaction->type === 'buy' ? 'Beli' : 'Sewa' }}</p>
             </div>
             @endforeach
-            @foreach ($reviews as $r)
+            @foreach ($row1 as $r)
             <div class="w-72 shrink-0 bg-card border border-subtle rounded-xl p-5">
                 <div class="flex items-center gap-1 mb-2">
                     @for ($i = 1; $i <= 5; $i++)
@@ -177,6 +181,42 @@
             @endforeach
         </div>
     </div>
+
+    {{-- Row 2: left to right --}}
+    @if ($row2->count())
+    <div>
+        <div class="flex gap-6 animate-scroll-lr" style="width: max-content;">
+            @foreach ($row2 as $r)
+            <div class="w-72 shrink-0 bg-card border border-subtle rounded-xl p-5">
+                <div class="flex items-center gap-1 mb-2">
+                    @for ($i = 1; $i <= 5; $i++)
+                        <span class="material-symbols-outlined text-sm {{ $i <= $r->rating ? 'text-accent' : 'text-secondary/30' }}" style="font-variation-settings: 'FILL' 1">star</span>
+                    @endfor
+                </div>
+                @if ($r->comment)
+                    <p class="text-sm text-secondary leading-relaxed italic">"{{ $r->comment }}"</p>
+                @endif
+                <p class="text-xs font-mono text-accent mt-3">{{ $r->user->name }}</p>
+                <p class="text-[10px] text-secondary/60 font-mono">{{ $r->transaction->account->game->name }} &middot; {{ $r->transaction->type === 'buy' ? 'Beli' : 'Sewa' }}</p>
+            </div>
+            @endforeach
+            @foreach ($row2 as $r)
+            <div class="w-72 shrink-0 bg-card border border-subtle rounded-xl p-5">
+                <div class="flex items-center gap-1 mb-2">
+                    @for ($i = 1; $i <= 5; $i++)
+                        <span class="material-symbols-outlined text-sm {{ $i <= $r->rating ? 'text-accent' : 'text-secondary/30' }}" style="font-variation-settings: 'FILL' 1">star</span>
+                    @endfor
+                </div>
+                @if ($r->comment)
+                    <p class="text-sm text-secondary leading-relaxed italic">"{{ $r->comment }}"</p>
+                @endif
+                <p class="text-xs font-mono text-accent mt-3">{{ $r->user->name }}</p>
+                <p class="text-[10px] text-secondary/60 font-mono">{{ $r->transaction->account->game->name }} &middot; {{ $r->transaction->type === 'buy' ? 'Beli' : 'Sewa' }}</p>
+            </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
 </section>
 @endif
 
@@ -194,7 +234,7 @@
                     <span class="material-symbols-outlined text-accent text-[24px]">search</span>
                 </div>
                 <h3 class="text-base font-semibold text-primary mb-2">Cari Akun</h3>
-                <p class="text-sm text-secondary leading-relaxed">Telusuri katalog, filter per game, cari akun impianmu.</p>
+                <p class="text-sm text-secondary leading-relaxed">Telusuri produk dan sewa, filter per game, cari akun impianmu.</p>
             </div>
 
             <div class="bg-card border border-subtle rounded-xl p-6 text-center hover:border-accent transition-all">
@@ -216,6 +256,8 @@
     </div>
 </section>
 @endsection
+
+
 
 
 

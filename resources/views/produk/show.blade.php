@@ -167,7 +167,8 @@
 
     <div class="flex items-center gap-2 text-sm text-secondary mt-8 font-mono">
         <span class="material-symbols-outlined text-sm">arrow_back</span>
-        <a href="{{ route('beli.index') }}" class="hover:text-accent transition-colors">Kembali</a>
+        <a href="{{ route('produk.index') }}" class="hover:text-accent transition-colors">Kembali</a>
     </div>
 </div>
 @endsection
+

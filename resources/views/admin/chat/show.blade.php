@@ -3,8 +3,22 @@
 @section('title', "Chat - $user->name")
 
 @section('content')
-<div class="mb-4">
+<div class="mb-4 space-y-2">
     <h1 class="text-base font-semibold text-primary">Chat dengan {{ $user->name }}</h1>
+    @if ($lastTransaction)
+        <div class="flex items-center gap-3 text-xs">
+            <span class="font-mono text-secondary">Transaksi terbaru:</span>
+            <span class="text-accent font-medium">{{ $lastTransaction->account->title }}</span>
+            <span class="text-secondary">({{ $lastTransaction->type === 'buy' ? 'Beli' : 'Sewa' }})</span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono
+                @if($lastTransaction->status === 'waiting_confirmation') bg-blue-500/10 text-blue-400
+                @elseif($lastTransaction->status === 'confirmed') bg-emerald-500/10 text-emerald-400
+                @elseif($lastTransaction->status === 'completed') bg-emerald-500/10 text-emerald-400
+                @endif">
+                {{ str_replace('_', ' ', $lastTransaction->status) }}
+            </span>
+        </div>
+    @endif
 </div>
 
 <div class="glass-panel rounded-xl overflow-hidden">
@@ -59,3 +73,4 @@
     Kembali
 </a>
 @endsection
+

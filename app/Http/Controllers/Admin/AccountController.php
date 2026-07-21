@@ -9,6 +9,15 @@ use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
+    private function sanitizeNumeric(Request $request, array $fields): void
+    {
+        foreach ($fields as $f) {
+            if ($request->has($f) && is_string($request->$f)) {
+                $request->merge([$f => str_replace('.', '', $request->$f)]);
+            }
+        }
+    }
+
     public function index(Request $request)
     {
         $type = $request->get('type');
@@ -32,6 +41,8 @@ class AccountController extends Controller
 
     public function store(Request $request)
     {
+        $this->sanitizeNumeric($request, ['price_sell', 'price_rent', 'discount_amount']);
+
         $rules = $request->type === 'rent' ? [
             'price_rent' => 'required|numeric|min:0',
             'price_sell' => 'nullable',
@@ -57,8 +68,8 @@ class AccountController extends Controller
         ]));
 
         if ($request->filled('discount_amount') && $request->filled('price_sell')) {
-            $data['discount_price'] = $request->price_sell - $request->discount_amount;
-            $data['discount_percent'] = round(($request->discount_amount / $request->price_sell) * 100);
+            $data['discount_price'] = (float)$request->price_sell - (float)$request->discount_amount;
+            $data['discount_percent'] = round(((float)$request->discount_amount / (float)$request->price_sell) * 100);
         }
 
         unset($data['discount_amount'], $data['type']);
@@ -82,6 +93,8 @@ class AccountController extends Controller
 
     public function update(Request $request, Account $account)
     {
+        $this->sanitizeNumeric($request, ['price_sell', 'price_rent', 'discount_amount']);
+
         $data = $request->validate([
             'game_id' => 'required|exists:games,id',
             'title' => 'required|string|max:255',
@@ -100,9 +113,12 @@ class AccountController extends Controller
             'status' => 'required|string|in:available,reserved,sold,rented',
         ]);
 
-        if ($request->filled('discount_amount') && $request->filled('price_sell')) {
-            $data['discount_price'] = $request->price_sell - $request->discount_amount;
-            $data['discount_percent'] = round(($request->discount_amount / $request->price_sell) * 100);
+        $rawDisc = $request->input('discount_amount');
+        $rawPrice = $request->input('price_sell');
+
+        if ($rawDisc !== null && $rawDisc !== '' && (float)$rawDisc > 0 && $rawPrice !== null && $rawPrice !== '' && (float)$rawPrice > 0) {
+            $data['discount_price'] = (float)$rawPrice - (float)$rawDisc;
+            $data['discount_percent'] = round(((float)$rawDisc / (float)$rawPrice) * 100);
         } else {
             $data['discount_percent'] = null;
             $data['discount_price'] = null;
@@ -114,7 +130,7 @@ class AccountController extends Controller
 
         $account->update($data);
 
-        return redirect()->route('admin.accounts.index')->with('success', 'Account updated.');
+        return redirect()->route('admin.accounts.index')->with('success', 'Akun berhasil diupdate & disimpan.');
     }
 
     public function destroy(Account $account)

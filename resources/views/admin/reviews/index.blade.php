@@ -71,3 +71,4 @@
     <div class="mt-5">{{ $reviews->links() }}</div>
 @endif
 @endsection
+

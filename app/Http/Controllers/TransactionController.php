@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\ChatMessage;
 use App\Models\RentalPackage;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -37,12 +39,18 @@ class TransactionController extends Controller
         return redirect()->route('transactions.show', $transaction);
     }
 
-    public function sewa(Account $account)
+    public function sewa(Request $request, Account $account)
     {
         $account->load('game', 'primaryImage');
         abort_if($account->status !== 'available', 404);
         $packages = RentalPackage::where('is_active', true)->orderBy('sort_order')->get();
-        return view('transactions.sewa', compact('account', 'packages'));
+
+        $selectedPackage = null;
+        if ($request->package) {
+            $selectedPackage = RentalPackage::find($request->package);
+        }
+
+        return view('transactions.sewa', compact('account', 'packages', 'selectedPackage'));
     }
 
     public function storeSewa(Request $request, Account $account)
@@ -78,6 +86,23 @@ class TransactionController extends Controller
             'payment_proof' => $path,
             'status' => 'waiting_confirmation',
         ]);
+
+        $admin = User::where('is_admin', true)->first();
+        if ($admin) {
+            $name = $transaction->account->title;
+            $inv = $transaction->invoice_number;
+            if ($transaction->type === 'rent') {
+                $package = $transaction->rentalPackage?->name ?? '-';
+                $msg = "Saya sudah membayar untuk sewa akun $name ($package). Invoice: $inv";
+            } else {
+                $msg = "Saya sudah membayar untuk pembelian akun $name. Invoice: $inv";
+            }
+            ChatMessage::create([
+                'sender_id' => $request->user()->id,
+                'receiver_id' => $admin->id,
+                'message' => $msg,
+            ]);
+        }
 
         return back()->with('success', 'Bukti pembayaran terkirim. Menunggu konfirmasi admin.');
     }

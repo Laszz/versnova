@@ -26,7 +26,7 @@
             <div class="col-span-full text-center py-20">
                 <span class="material-symbols-outlined text-5xl text-secondary block mb-4">local_fire_department</span>
                 <p class="text-secondary">Belum ada flashsale aktif.</p>
-                <a href="{{ route('katalog') }}" class="text-sm text-accent hover:underline mt-2 inline-block">Lihat katalog</a>
+                <a href="{{ route('produk.index') }}" class="text-sm text-accent hover:underline mt-2 inline-block">Lihat Beli</a>
             </div>
         @endforelse
     </div>
@@ -61,3 +61,6 @@
     });
 </script>
 @endsection
+
+
+

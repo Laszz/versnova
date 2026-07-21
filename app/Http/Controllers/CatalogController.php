@@ -4,23 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Game;
+use App\Models\RentalPackage;
 use Illuminate\Http\Request;
 
 class CatalogController extends Controller
 {
-    public function index()
-    {
-        $accounts = Account::with('game', 'primaryImage')
-            ->where('status', 'available')
-            ->latest()
-            ->paginate(12);
-
-        $games = Game::orderBy('name')->get();
-
-        return view('katalog.index', compact('accounts', 'games'));
-    }
-
-    public function beli(Request $request)
+    public function produk(Request $request)
     {
         $query = Account::with('game', 'primaryImage')
             ->where('status', 'available')
@@ -34,14 +23,14 @@ class CatalogController extends Controller
         $accounts = $query->latest()->paginate(12);
         $games = Game::whereHas('accounts', fn($q) => $q->where('status', 'available')->whereNotNull('price_sell')->whereNull('price_rent'))->orderBy('name')->get();
 
-        return view('beli.index', compact('accounts', 'games'));
+        return view('produk.index', compact('accounts', 'games'));
     }
 
-    public function beliShow(Account $account)
+    public function produkShow(Account $account)
     {
         abort_if($account->status !== 'available' || !$account->price_sell || $account->price_rent, 404);
         $account->load('game', 'images', 'primaryImage');
-        return view('beli.show', compact('account'));
+        return view('produk.show', compact('account'));
     }
 
     public function sewa(Request $request)
@@ -65,34 +54,18 @@ class CatalogController extends Controller
     {
         abort_if($account->status !== 'available' || !$account->price_rent || $account->price_sell, 404);
         $account->load('game', 'images', 'primaryImage');
-        $packages = \App\Models\RentalPackage::where('is_active', true)->orderBy('sort_order')->get();
+        $packages = RentalPackage::where('is_active', true)->orderBy('sort_order')->get();
         return view('sewa.show', compact('account', 'packages'));
-    }
-
-    public function game(Game $game)
-    {
-        $accounts = Account::with('game', 'primaryImage')
-            ->where('game_id', $game->id)
-            ->where('status', 'available')
-            ->latest()
-            ->paginate(12);
-
-        $games = Game::orderBy('name')->get();
-
-        return view('katalog.index', compact('accounts', 'games', 'game'));
     }
 
     public function show(Account $account)
     {
-        $account->load('game', 'images', 'primaryImage');
-
-        $related = Account::with('game', 'primaryImage')
-            ->where('game_id', $account->game_id)
-            ->where('id', '!=', $account->id)
-            ->where('status', 'available')
-            ->take(4)
-            ->get();
-
-        return view('katalog.show', compact('account', 'related'));
+        if ($account->price_sell && !$account->price_rent) {
+            return redirect()->route('produk.show', $account);
+        }
+        if ($account->price_rent && !$account->price_sell) {
+            return redirect()->route('sewa.show', $account);
+        }
+        abort(404);
     }
 }

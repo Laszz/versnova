@@ -109,13 +109,13 @@
 
                 {{-- Rental Packages --}}
                 @if ($packages->count())
-                <div>
+                <div x-data="{ selected: {{ $packages->first()->id }} }">
                     <p class="text-xs font-mono text-secondary uppercase tracking-wider mb-3">Pilih Paket Sewa</p>
                     <div class="space-y-2">
                         @foreach ($packages as $p)
                         <label class="flex items-center justify-between p-3 rounded-lg border border-subtle hover:border-accent/30 cursor-pointer transition-colors has-[:checked]:border-accent has-[:checked]:bg-accent/5">
                             <div class="flex items-center gap-3">
-                                <input type="radio" name="rental_package_id" value="{{ $p->id }}" class="text-accent focus:ring-accent/50" @if($loop->first) checked @endif required>
+                                <input type="radio" name="rental_package_id" value="{{ $p->id }}" class="text-accent focus:ring-accent/50" @if($loop->first) checked @endif required @click="selected = {{ $p->id }}">
                                 <div>
                                     <p class="text-sm font-medium text-primary">{{ $p->name }}</p>
                                     @if ($p->open_time)
@@ -127,22 +127,17 @@
                         </label>
                         @endforeach
                     </div>
-                </div>
-                @endif
 
-                <div class="space-y-3">
-                    @if ($account->status === 'available')
-                        <form method="POST" action="{{ route('transactions.sewa', $account) }}">
-                            @csrf
-                            @foreach ($packages as $p)
-                                <input type="hidden" name="rental_package_id" value="{{ $packages->first()->id }}">
-                            @endforeach
-                            <button type="submit" class="flex items-center justify-center gap-2 w-full px-5 py-3 bg-accent text-white rounded-lg font-medium hover:brightness-110 transition-all" style="box-shadow: 0 0 15px rgba(255,83,87,0.25);">
+                    <div class="space-y-3 mt-4">
+                        @if ($account->status === 'available')
+                            <a :href="'{{ route('transactions.sewa', $account) }}?package=' + selected" class="flex items-center justify-center gap-2 w-full px-5 py-3 bg-accent text-white rounded-lg font-medium hover:brightness-110 transition-all" style="box-shadow: 0 0 15px rgba(255,83,87,0.25);">
                                 <span class="material-symbols-outlined text-lg">schedule</span>
                                 Sewa Sekarang
-                            </button>
-                        </form>
-                    @endif
+                            </a>
+                        @endif
+                    </div>
+                </div>
+                @endif
                     @auth
                         @php $wished = Auth::user()->wishlists()->where('account_id', $account->id)->exists() @endphp
                         <form method="POST" action="{{ route('wishlist.toggle', $account) }}">
@@ -169,3 +164,4 @@
     </div>
 </div>
 @endsection
+

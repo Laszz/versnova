@@ -3,8 +3,7 @@
         <a href="/" class="font-bold tracking-tight shrink-0" style="font-family: 'Space Mono', monospace; font-size: 18px; color: #ffb3af;">Versnova</a>
 
         <div class="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
-            <a href="{{ route('katalog') }}" class="text-sm text-secondary hover:text-accent transition-colors">Katalog</a>
-            <a href="{{ route('beli.index') }}" class="text-sm text-secondary hover:text-accent transition-colors">Beli</a>
+            <a href="{{ route('produk.index') }}" class="text-sm text-secondary hover:text-accent transition-colors">Produk</a>
             <a href="{{ route('sewa.index') }}" class="text-sm text-secondary hover:text-accent transition-colors">Sewa</a>
             <a href="{{ route('flashsale') }}" class="text-sm text-secondary hover:text-accent transition-colors">Flashsale</a>
         </div>
@@ -82,12 +81,14 @@
 
     <div x-show="mobileMenu" x-cloak class="md:hidden bg-card border-b border-subtle">
         <div class="px-4 py-3 space-y-2">
-            <a href="{{ route('katalog') }}" class="block text-sm text-secondary hover:text-accent py-2 transition-colors">Katalog</a>
-            <a href="{{ route('beli.index') }}" class="block text-sm text-secondary hover:text-accent py-2 transition-colors">Beli</a>
+            <a href="{{ route('produk.index') }}" class="block text-sm text-secondary hover:text-accent py-2 transition-colors">Produk</a>
             <a href="{{ route('sewa.index') }}" class="block text-sm text-secondary hover:text-accent py-2 transition-colors">Sewa</a>
             <a href="{{ route('flashsale') }}" class="block text-sm text-secondary hover:text-accent py-2 transition-colors">Flashsale</a>
         </div>
     </div>
 </nav>
+
+
+
 
 

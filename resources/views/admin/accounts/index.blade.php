@@ -62,7 +62,15 @@
                         <span class="text-xs px-2 py-0.5 rounded border border-white/10 text-secondary font-medium">Sewa</span>
                     @endif
                 </td>
-                <td class="px-6 py-4 text-sm text-[#e5e2e1] font-mono">Rp{{ number_format($a->price_sell ?? $a->price_rent, 0, ',', '.') }}</td>
+                <td class="px-6 py-4 text-sm text-[#e5e2e1] font-mono">
+    @if ($a->discount_price && $a->discount_percent)
+        <span class="line-through text-secondary/60">Rp{{ number_format($a->price_sell ?? $a->price_rent, 0, ',', '.') }}</span>
+        <span class="text-accent">Rp{{ number_format($a->discount_price, 0, ',', '.') }}</span>
+        <span class="text-[10px] text-accent ml-1">-{{ $a->discount_percent }}%</span>
+    @else
+        Rp{{ number_format($a->price_sell ?? $a->price_rent, 0, ',', '.') }}
+    @endif
+</td>
                 <td class="px-6 py-4">
                     @php
                         $sc = match($a->status) {
@@ -104,3 +112,4 @@
     <div class="mt-5">{{ $accounts->links() }}</div>
 @endif
 @endsection
+

@@ -61,14 +61,16 @@
 
         <div class="grid @if($type) grid-cols-1 @else grid-cols-2 @endif gap-2">
             @if ($account->price_sell && (!$type || $type === 'buy'))
-                <a href="{{ $type === 'buy' ? route('beli.show', $account) : route('transactions.beli', $account) }}" class="flex items-center justify-center gap-1.5 w-full px-4 py-2.5 bg-accent text-white rounded-lg text-xs font-medium text-center hover:brightness-110 transition-all">Beli</a>
+                <a href="{{ $type === 'buy' ? route('produk.show', $account) : route('transactions.beli', $account) }}" class="flex items-center justify-center gap-1.5 w-full px-4 py-2.5 bg-accent text-white rounded-lg text-xs font-medium text-center hover:brightness-110 transition-all">Beli</a>
             @endif
             @if ($account->price_rent && (!$type || $type === 'rent'))
-                <a href="{{ $type === 'rent' ? route('sewa.show', $account) : route('katalog.show', $account) }}" class="flex items-center justify-center gap-1.5 w-full px-4 py-2.5 bg-accent text-white rounded-lg text-xs font-medium text-center hover:brightness-110 transition-all">Sewa</a>
+                <a href="{{ $type === 'rent' ? route('sewa.show', $account) : route('akun.show', $account) }}" class="flex items-center justify-center gap-1.5 w-full px-4 py-2.5 bg-accent text-white rounded-lg text-xs font-medium text-center hover:brightness-110 transition-all">Sewa</a>
             @endif
         </div>
     </div>
 </div>
+
+
 
 
 

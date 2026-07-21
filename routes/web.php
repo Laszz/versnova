@@ -12,13 +12,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/katalog', [CatalogController::class, 'index'])->name('katalog');
-Route::get('/beli', [CatalogController::class, 'beli'])->name('beli.index');
-Route::get('/beli/{account:slug}', [CatalogController::class, 'beliShow'])->name('beli.show');
+Route::get('/produk', [CatalogController::class, 'produk'])->name('produk.index');
+Route::get('/produk/{account:slug}', [CatalogController::class, 'produkShow'])->name('produk.show');
 Route::get('/sewa', [CatalogController::class, 'sewa'])->name('sewa.index');
 Route::get('/sewa/{account:slug}', [CatalogController::class, 'sewaShow'])->name('sewa.show');
-Route::get('/katalog/{game:slug}', [CatalogController::class, 'game'])->name('katalog.game');
-Route::get('/akun/{account:slug}', [CatalogController::class, 'show'])->name('katalog.show');
+Route::get('/akun/{account:slug}', [CatalogController::class, 'show'])->name('akun.show');
 
 Route::get('/flashsale', [FlashsaleController::class, 'index'])->name('flashsale');
 
@@ -64,6 +62,10 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.login');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
+
+Route::view('/cara-beli', 'pages.cara-beli')->name('cara.beli');
+Route::view('/cara-sewa', 'pages.cara-sewa')->name('cara.sewa');
+Route::view('/kebijakan-privasi', 'pages.kebijakan-privasi')->name('kebijakan.privasi');
 
 Route::get('/sitemap.xml', function () {
     return response()->view('seo.sitemap')->header('Content-Type', 'application/xml');

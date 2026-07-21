@@ -66,6 +66,12 @@ class ChatController extends Controller
             ->where('is_read', false)
             ->update(['is_read' => true]);
 
-        return view('admin.chat.show', compact('messages', 'user'));
+        $lastTransaction = $user->transactions()
+            ->whereIn('status', ['waiting_confirmation', 'confirmed', 'completed'])
+            ->with('account.game')
+            ->latest()
+            ->first();
+
+        return view('admin.chat.show', compact('messages', 'user', 'lastTransaction'));
     }
 }

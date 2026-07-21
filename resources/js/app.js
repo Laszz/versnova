@@ -1,3 +1,4 @@
+import '@aejkatappaja/phantom-ui';
 import './components/dark-mode';
 import './components/countdown';
 import './bootstrap';

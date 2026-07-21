@@ -8,9 +8,9 @@
             <div>
                 <h4 class="text-xs font-mono text-accent uppercase tracking-widest mb-4">Bantuan</h4>
                 <ul class="space-y-2">
-                    <li><a href="#" class="text-sm text-secondary hover:text-accent transition-colors">Cara Beli</a></li>
-                    <li><a href="#" class="text-sm text-secondary hover:text-accent transition-colors">Cara Sewa</a></li>
-                    <li><a href="#" class="text-sm text-secondary hover:text-accent transition-colors">Kebijakan Privasi</a></li>
+                    <li><a href="{{ route('cara.beli') }}" class="text-sm text-secondary hover:text-accent transition-colors">Cara Beli</a></li>
+                    <li><a href="{{ route('cara.sewa') }}" class="text-sm text-secondary hover:text-accent transition-colors">Cara Sewa</a></li>
+                    <li><a href="{{ route('kebijakan.privasi') }}" class="text-sm text-secondary hover:text-accent transition-colors">Kebijakan Privasi</a></li>
                 </ul>
             </div>
             <div>
@@ -26,6 +26,9 @@
         </div>
     </div>
 </footer>
+
+
+
 
 
 

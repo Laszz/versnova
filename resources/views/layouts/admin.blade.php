@@ -16,13 +16,17 @@
     @php
         $notifPending = \App\Models\Transaction::where('status', 'waiting_confirmation')->count();
         $notifUnread = \App\Models\ChatMessage::where('receiver_id', Auth::id())->where('is_read', false)->count();
-        $notifTotal = $notifPending + $notifUnread;
+        $notifReviews = \App\Models\Review::where('is_approved', false)->count();
+        $notifTotal = $notifPending + $notifUnread + $notifReviews;
         $notifTransactions = \App\Models\Transaction::with('user', 'account')
             ->where('status', 'waiting_confirmation')
             ->latest()->take(5)->get();
         $notifChats = \App\Models\User::whereHas('sentMessages', function($q) {
             $q->where('receiver_id', Auth::id())->where('is_read', false);
         })->take(3)->get();
+        $notifReviewItems = \App\Models\Review::with('user', 'transaction.account')
+            ->where('is_approved', false)
+            ->latest()->take(5)->get();
     @endphp
 </head>
 <body class="bg-[#0e0e0e] text-[#e5e2e1] antialiased selection:bg-[#ff5357]/30 selection:text-white">
@@ -86,6 +90,24 @@
                                     @endforeach
                                 @endif
 
+                                @if ($notifReviewItems->count())
+                                    <div class="px-3 pt-3 pb-1 border-t border-white/5 mt-2">
+                                        <p class="text-[10px] font-mono text-accent uppercase tracking-wider">Review Baru</p>
+                                    </div>
+                                    @foreach ($notifReviewItems as $r)
+                                    <a href="{{ route('admin.reviews') }}" class="flex items-center gap-3 px-3 py-2.5 hover:bg-white/5 transition-colors">
+                                        <div class="w-8 h-8 rounded-full bg-[#ff5357]/10 flex items-center justify-center text-accent">
+                                            <span class="material-symbols-outlined text-sm">star</span>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-xs text-[#e5e2e1] truncate">{{ $r->user->name }} - {{ $r->rating }} bintang</p>
+                                            <p class="text-[10px] text-secondary truncate">{{ Str::limit($r->comment ?? '-', 30) }}</p>
+                                        </div>
+                                        <span class="material-symbols-outlined text-sm text-[#474746]">chevron_right</span>
+                                    </a>
+                                    @endforeach
+                                @endif
+
                                 @if ($notifTotal === 0)
                                     <div class="text-center py-8 text-secondary text-xs">Tidak ada notifikasi</div>
                                 @endif
@@ -102,7 +124,26 @@
 
             <div class="p-4 md:p-6 lg:p-8 overflow-x-auto">
                 @if (session('success'))
-                    <div class="mb-6 px-4 py-3 bg-[#ff5357]/10 border border-[#ff5357]/20 rounded-lg text-[#ffb3af] text-sm">{{ session('success') }}</div>
+                    <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)" class="fixed top-20 right-4 z-50 px-5 py-3 bg-[#ff5357]/10 border border-[#ff5357]/30 rounded-xl text-[#ffb3af] text-sm shadow-2xl backdrop-blur-xl" style="background: rgba(28,27,27,0.95);">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-sm">check_circle</span>
+                            <span>{{ session('success') }}</span>
+                            <button @click="show = false" class="ml-2 text-secondary hover:text-[#ffb3af]">
+                                <span class="material-symbols-outlined text-sm">close</span>
+                            </button>
+                        </div>
+                    </div>
+                @endif
+                @if ($errors->any())
+                    <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 6000)" class="fixed top-20 right-4 z-50 px-5 py-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm shadow-2xl backdrop-blur-xl" style="background: rgba(28,27,27,0.95);">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-sm">error</span>
+                            <span>{{ $errors->first() }}</span>
+                            <button @click="show = false" class="ml-2 text-secondary hover:text-red-400">
+                                <span class="material-symbols-outlined text-sm">close</span>
+                            </button>
+                        </div>
+                    </div>
                 @endif
                 @yield('content')
             </div>
@@ -110,3 +151,4 @@
     </div>
 </body>
 </html>
+

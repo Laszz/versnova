@@ -10,8 +10,8 @@
             <p class="text-sm text-secondary mt-1">{{ $accounts->total() }} akun disewakan</p>
         </div>
         <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1">
-            <a href="{{ route('katalog') }}" class="whitespace-nowrap px-3.5 py-1.5 rounded-lg text-xs font-medium bg-card border border-subtle text-secondary hover:border-accent hover:text-accent transition-all">Semua</a>
-            <a href="{{ route('beli.index') }}" class="whitespace-nowrap px-3.5 py-1.5 rounded-lg text-xs font-medium bg-card border border-subtle text-secondary hover:border-accent hover:text-accent transition-all">Beli</a>
+            <a href="{{ route('produk.index') }}" class="whitespace-nowrap px-3.5 py-1.5 rounded-lg text-xs font-medium bg-card border border-subtle text-secondary hover:border-accent hover:text-accent transition-all">Semua</a>
+            <a href="{{ route('produk.index') }}" class="whitespace-nowrap px-3.5 py-1.5 rounded-lg text-xs font-medium bg-card border border-subtle text-secondary hover:border-accent hover:text-accent transition-all">Produk</a>
             <a href="{{ route('sewa.index') }}" class="whitespace-nowrap px-3.5 py-1.5 rounded-lg text-xs font-medium bg-accent text-white transition-all">Sewa</a>
         </div>
     </div>
@@ -37,3 +37,6 @@
     <div class="mt-8">{{ $accounts->links() }}</div>
 </div>
 @endsection
+
+
+
