@@ -98,6 +98,88 @@
     </div>
 </section>
 
+{{-- Recent Sold --}}
+@if ($recentSold->count())
+<section class="border-t border-subtle py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h2 class="text-lg font-bold text-primary">Terbaru Terjual</h2>
+                <p class="text-sm text-secondary mt-1">Akun yang sudah laku & dipercaya pembeli</p>
+            </div>
+        </div>
+
+        <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+            @foreach ($recentSold as $s)
+            <div class="shrink-0 w-64 bg-card border border-subtle rounded-xl overflow-hidden opacity-60 hover:opacity-90 transition-opacity">
+                <div class="relative aspect-[4/3] bg-elevated flex items-center justify-center">
+                    @if ($s->primaryImage)
+                        <img src="{{ Storage::url($s->primaryImage->image_path) }}" alt="" class="w-full h-full object-cover">
+                    @else
+                        <span class="material-symbols-outlined text-3xl text-secondary/40">inventory_2</span>
+                    @endif
+                    <div class="absolute inset-0 bg-[#0e0e0e]/60 flex items-center justify-center">
+                        <div class="text-center">
+                            <span class="text-xs font-mono uppercase tracking-wider text-secondary/80 block">{{ $s->status === 'sold' ? 'Terjual' : 'Tersewa' }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3">
+                    <p class="text-sm font-medium text-primary truncate">{{ $s->title }}</p>
+                    <p class="text-xs text-secondary font-mono">{{ $s->game->name }}</p>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
+
+{{-- Testimonials --}}
+@if ($reviews->count())
+<section class="border-t border-subtle py-16 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+        <div class="text-center">
+            <h2 class="text-lg font-bold text-primary">Kata Mereka</h2>
+            <p class="text-sm text-secondary mt-1">Review dari pembeli & penyewa</p>
+        </div>
+    </div>
+    <div class="relative">
+        <div class="flex gap-6 animate-scroll" style="width: max-content;">
+            {{-- Duplicate for seamless loop --}}
+            @foreach ($reviews as $r)
+            <div class="w-72 shrink-0 bg-card border border-subtle rounded-xl p-5">
+                <div class="flex items-center gap-1 mb-2">
+                    @for ($i = 1; $i <= 5; $i++)
+                        <span class="material-symbols-outlined text-sm {{ $i <= $r->rating ? 'text-accent' : 'text-secondary/30' }}" style="font-variation-settings: 'FILL' 1">star</span>
+                    @endfor
+                </div>
+                @if ($r->comment)
+                    <p class="text-sm text-secondary leading-relaxed italic">"{{ $r->comment }}"</p>
+                @endif
+                <p class="text-xs font-mono text-accent mt-3">{{ $r->user->name }}</p>
+                <p class="text-[10px] text-secondary/60 font-mono">{{ $r->transaction->account->game->name }} &middot; {{ $r->transaction->type === 'buy' ? 'Beli' : 'Sewa' }}</p>
+            </div>
+            @endforeach
+            @foreach ($reviews as $r)
+            <div class="w-72 shrink-0 bg-card border border-subtle rounded-xl p-5">
+                <div class="flex items-center gap-1 mb-2">
+                    @for ($i = 1; $i <= 5; $i++)
+                        <span class="material-symbols-outlined text-sm {{ $i <= $r->rating ? 'text-accent' : 'text-secondary/30' }}" style="font-variation-settings: 'FILL' 1">star</span>
+                    @endfor
+                </div>
+                @if ($r->comment)
+                    <p class="text-sm text-secondary leading-relaxed italic">"{{ $r->comment }}"</p>
+                @endif
+                <p class="text-xs font-mono text-accent mt-3">{{ $r->user->name }}</p>
+                <p class="text-[10px] text-secondary/60 font-mono">{{ $r->transaction->account->game->name }} &middot; {{ $r->transaction->type === 'buy' ? 'Beli' : 'Sewa' }}</p>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
+
 {{-- How it Works --}}
 <section class="border-t border-subtle py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

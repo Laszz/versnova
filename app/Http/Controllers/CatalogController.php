@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Game;
+use Illuminate\Http\Request;
 
 class CatalogController extends Controller
 {
@@ -19,16 +20,21 @@ class CatalogController extends Controller
         return view('katalog.index', compact('accounts', 'games'));
     }
 
-    public function beli()
+    public function beli(Request $request)
     {
-        $accounts = Account::with('game', 'primaryImage')
+        $query = Account::with('game', 'primaryImage')
             ->where('status', 'available')
             ->whereNotNull('price_sell')
-            ->whereNull('price_rent')
-            ->latest()
-            ->paginate(12);
+            ->whereNull('price_rent');
 
-        return view('beli.index', compact('accounts'));
+        if ($request->game && $game = Game::where('slug', $request->game)->first()) {
+            $query->where('game_id', $game->id);
+        }
+
+        $accounts = $query->latest()->paginate(12);
+        $games = Game::whereHas('accounts', fn($q) => $q->where('status', 'available')->whereNotNull('price_sell')->whereNull('price_rent'))->orderBy('name')->get();
+
+        return view('beli.index', compact('accounts', 'games'));
     }
 
     public function beliShow(Account $account)
@@ -38,16 +44,21 @@ class CatalogController extends Controller
         return view('beli.show', compact('account'));
     }
 
-    public function sewa()
+    public function sewa(Request $request)
     {
-        $accounts = Account::with('game', 'primaryImage')
+        $query = Account::with('game', 'primaryImage')
             ->where('status', 'available')
             ->whereNotNull('price_rent')
-            ->whereNull('price_sell')
-            ->latest()
-            ->paginate(12);
+            ->whereNull('price_sell');
 
-        return view('sewa.index', compact('accounts'));
+        if ($request->game && $game = Game::where('slug', $request->game)->first()) {
+            $query->where('game_id', $game->id);
+        }
+
+        $accounts = $query->latest()->paginate(12);
+        $games = Game::whereHas('accounts', fn($q) => $q->where('status', 'available')->whereNotNull('price_rent')->whereNull('price_sell'))->orderBy('name')->get();
+
+        return view('sewa.index', compact('accounts', 'games'));
     }
 
     public function sewaShow(Account $account)

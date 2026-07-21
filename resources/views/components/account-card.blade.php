@@ -12,7 +12,7 @@
 
         <div class="absolute top-2 left-2 flex flex-col gap-1.5">
             <span class="px-2.5 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-elevated/80 text-secondary border border-subtle">{{ $account->game->name }}</span>
-            @if ($account->discount_percent)
+            @if ($account->discount_percent && (!$account->discount_until || $account->discount_until->isFuture()))
                 <span class="px-2.5 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-accent text-white">-{{ $account->discount_percent }}%</span>
             @endif
         </div>
@@ -25,7 +25,7 @@
             </div>
         @endif
 
-        @if ($account->discount_until)
+        @if ($account->discount_until && $account->discount_until->isFuture())
             <div class="absolute bottom-2 right-2 bg-[#0e0e0e]/80 backdrop-blur-sm px-2 py-1 rounded-lg border border-accent/30 flex items-center gap-1.5">
                 <span class="material-symbols-outlined text-accent text-xs">schedule</span>
                 @php $dur = max(0, $account->discount_until->timestamp - now()->timestamp); $init = sprintf('%02d:%02d:%02d', floor($dur/3600), floor(($dur%3600)/60), $dur%60); @endphp
@@ -48,7 +48,7 @@
 
         <div class="flex items-end justify-between mt-auto">
             <div>
-                @if ($account->discount_price)
+                @if ($account->discount_price && (!$account->discount_until || $account->discount_until->isFuture()))
                     <span class="text-xs text-secondary line-through">Rp{{ number_format($account->price_sell ?? $account->price_rent, 0, ',', '.') }}</span>
                     <p class="text-lg font-bold text-accent leading-none">Rp{{ number_format($account->discount_price, 0, ',', '.') }}</p>
                 @elseif ($account->price_sell)

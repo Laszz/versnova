@@ -6,6 +6,7 @@
         ['name' => 'admin.games.index', 'label' => 'Games', 'icon' => 'stadia_controller'],
         ['name' => 'admin.users', 'label' => 'Users', 'icon' => 'group'],
         ['name' => 'admin.rental-packages.index', 'label' => 'Rental', 'icon' => 'schedule'],
+        ['name' => 'admin.reviews', 'label' => 'Reviews', 'icon' => 'star'],
         ['name' => 'admin.chat', 'label' => 'Support', 'icon' => 'contact_support'],
         ['name' => 'admin.laporan', 'label' => 'Reports', 'icon' => 'assessment'],
     ];

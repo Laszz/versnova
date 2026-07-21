@@ -88,6 +88,17 @@ class TransactionController extends Controller
         return view('transactions.show', compact('transaction'));
     }
 
+    public function cancel(Request $request, Transaction $transaction)
+    {
+        abort_if($transaction->user_id !== $request->user()->id, 403);
+        abort_if($transaction->status !== 'waiting_payment', 403);
+
+        $transaction->update(['status' => 'cancelled']);
+        $transaction->account()->update(['status' => 'available']);
+
+        return redirect()->route('riwayat')->with('success', 'Pesanan dibatalkan.');
+    }
+
     public function riwayat(Request $request)
     {
         $transactions = Transaction::with('account.game')

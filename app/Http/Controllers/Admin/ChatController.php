@@ -14,27 +14,41 @@ class ChatController extends Controller
     {
         $adminId = request()->user()->id;
 
-        $chatUsers = User::where('id', '!=', $adminId)
-            ->where(function ($q) {
-                $q->whereHas('sentMessages')->orWhereHas('receivedMessages');
-            })->get()->keyBy('id');
+        $recentStatuses = ['waiting_confirmation', 'confirmed', 'completed'];
 
         $transactionUsers = User::where('id', '!=', $adminId)
-            ->whereHas('transactions', function ($q) {
-                $q->whereIn('status', ['waiting_payment', 'waiting_confirmation', 'confirmed', 'completed']);
-            })->with(['transactions' => function ($q) {
-                $q->whereIn('status', ['waiting_payment', 'waiting_confirmation', 'confirmed', 'completed'])->latest();
-            }])->get();
+            ->whereHas('transactions', function ($q) use ($recentStatuses) {
+                $q->whereIn('status', $recentStatuses);
+            })->with(['transactions' => function ($q) use ($recentStatuses) {
+                $q->whereIn('status', $recentStatuses)->latest();
+            }])->get()->keyBy('id');
 
-        $users = $transactionUsers->merge($chatUsers)->unique('id')->values();
+        $chatUsers = User::where('id', '!=', $adminId)
+            ->where(function ($q) use ($adminId) {
+                $q->whereHas('sentMessages', fn($q) => $q->where('receiver_id', $adminId))
+                  ->orWhereHas('receivedMessages', fn($q) => $q->where('sender_id', $adminId));
+            })->get()->keyBy('id');
+
+        $users = $transactionUsers;
+
+        foreach ($chatUsers as $id => $u) {
+            if (!isset($users[$id])) {
+                $users[$id] = $u;
+            }
+        }
 
         foreach ($users as $u) {
             $u->unread = ChatMessage::where('sender_id', $u->id)
                 ->where('receiver_id', $adminId)
                 ->where('is_read', false)
                 ->count();
-            $u->lastTransaction = $u->transactions->first();
+
+            $u->lastTransaction = $u->transactions?->first();
         }
+
+        $users = $users->sortByDesc(function ($u) {
+            return $u->unread > 0 ? 1 : 0;
+        });
 
         return view('admin.chat.index', compact('users'));
     }

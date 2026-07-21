@@ -17,7 +17,7 @@
         $stats = [
             ['label' => 'Total Akun', 'value' => \App\Models\Account::count(), 'pct' => '+0%', 'icon' => 'inventory_2', 'bar' => 100],
             ['label' => 'Tersedia', 'value' => \App\Models\Account::where('status', 'available')->count(), 'pct' => '', 'icon' => 'check_circle', 'bar' => 65],
-            ['label' => 'Transaksi Bulan Ini', 'value' => \App\Models\Transaction::whereMonth('created_at', now()->month)->count(), 'pct' => '', 'icon' => 'payments', 'bar' => 45],
+            ['label' => 'Transaksi Bulan Ini', 'value' => \App\Models\Transaction::whereMonth('created_at', now()->month)->where('status', 'completed')->count(), 'pct' => '', 'icon' => 'payments', 'bar' => 45],
             ['label' => 'Total User', 'value' => \App\Models\User::count(), 'pct' => '', 'icon' => 'group', 'bar' => 80],
         ];
     @endphp

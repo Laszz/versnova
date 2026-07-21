@@ -4,12 +4,6 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
-    <div class="flex items-center gap-2 text-sm text-secondary mb-8 font-mono">
-        <a href="{{ route('sewa.index') }}" class="hover:text-accent transition-colors">Sewa</a>
-        <span>/</span>
-        <span class="text-primary truncate max-w-[200px]">{{ $account->title }}</span>
-    </div>
-
     <div class="lg:grid lg:grid-cols-12 lg:gap-8 lg:items-start">
         <div class="lg:col-span-7 space-y-4">
             @php $images = $account->images->filter(fn($i) => $i->image_path); @endphp
@@ -167,6 +161,11 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="flex items-center gap-2 text-sm text-secondary mt-8 font-mono">
+        <span class="material-symbols-outlined text-sm">arrow_back</span>
+        <a href="{{ route('sewa.index') }}" class="hover:text-accent transition-colors">Kembali</a>
     </div>
 </div>
 @endsection

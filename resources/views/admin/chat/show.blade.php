@@ -4,11 +4,7 @@
 
 @section('content')
 <div class="mb-4">
-    <a href="{{ route('admin.chat') }}" class="text-sm text-secondary hover:text-accent transition-colors inline-flex items-center gap-1">
-        <span class="material-symbols-outlined text-sm">arrow_back</span>
-        Kembali
-    </a>
-    <h1 class="text-base font-semibold text-primary mt-2">Chat dengan {{ $user->name }}</h1>
+    <h1 class="text-base font-semibold text-primary">Chat dengan {{ $user->name }}</h1>
 </div>
 
 <div class="glass-panel rounded-xl overflow-hidden">
@@ -57,4 +53,9 @@
         });
     });
 </script>
+
+<a href="{{ route('admin.chat') }}" class="text-sm text-secondary hover:text-accent transition-colors inline-flex items-center gap-1 mt-4">
+    <span class="material-symbols-outlined text-sm">arrow_back</span>
+    Kembali
+</a>
 @endsection

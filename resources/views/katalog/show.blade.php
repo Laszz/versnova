@@ -4,14 +4,7 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
-    {{-- Breadcrumb --}}
-    <div class="flex items-center gap-2 text-sm text-secondary mb-8 font-mono">
-        <a href="{{ route('katalog') }}" class="hover:text-accent transition-colors">Katalog</a>
-        <span>/</span>
-        <a href="{{ route('katalog.game', $account->game) }}" class="hover:text-accent transition-colors">{{ $account->game->name }}</a>
-        <span>/</span>
-        <span class="text-primary truncate max-w-[200px]">{{ $account->title }}</span>
-    </div>
+
 
     <div class="lg:grid lg:grid-cols-12 lg:gap-8 lg:items-start">
         {{-- Left: Gallery + Specs --}}
@@ -213,5 +206,10 @@
         </div>
     </section>
     @endif
+
+    <div class="flex items-center gap-2 text-sm text-secondary mt-8 font-mono">
+        <span class="material-symbols-outlined text-sm">arrow_back</span>
+        <a href="{{ route('katalog') }}" class="hover:text-accent transition-colors">Kembali</a>
+    </div>
 </div>
 @endsection

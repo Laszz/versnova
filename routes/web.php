@@ -37,6 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/transaksi/sewa/{account}', [TransactionController::class, 'sewa'])->name('transactions.sewa');
     Route::post('/transaksi/sewa/{account}', [TransactionController::class, 'storeSewa']);
     Route::post('/transaksi/{transaction}/bukti', [TransactionController::class, 'uploadBukti'])->name('transactions.bukti');
+    Route::post('/transaksi/{transaction}/review', [App\Http\Controllers\ReviewController::class, 'store'])->name('transactions.review');
+    Route::post('/transaksi/{transaction}/cancel', [TransactionController::class, 'cancel'])->name('transactions.cancel');
     Route::get('/transaksi/{transaction}', [TransactionController::class, 'show'])->name('transactions.show');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -54,6 +56,10 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('chat', [App\Http\Controllers\Admin\ChatController::class, 'index'])->name('admin.chat');
     Route::get('chat/{user}', [App\Http\Controllers\Admin\ChatController::class, 'show'])->name('admin.chat.show');
     Route::get('laporan', [App\Http\Controllers\Admin\LaporanController::class, 'index'])->name('admin.laporan');
+    Route::get('reviews', [App\Http\Controllers\Admin\ReviewController::class, 'index'])->name('admin.reviews');
+    Route::post('reviews/{review}/approve', [App\Http\Controllers\Admin\ReviewController::class, 'approve'])->name('admin.reviews.approve');
+    Route::post('reviews/{review}/reject', [App\Http\Controllers\Admin\ReviewController::class, 'reject'])->name('admin.reviews.reject');
+    Route::delete('reviews/{review}', [App\Http\Controllers\Admin\ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
 });
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.login');
