@@ -3,14 +3,14 @@
 @section('title', 'Wishlist')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16" data-reveal>
     <div class="mb-8">
         <h1 class="text-lg font-bold text-primary">Wishlist</h1>
         <p class="text-sm text-secondary mt-1">Akun favoritmu</p>
     </div>
 
     @if ($accounts->count())
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" data-stagger>
         @foreach ($accounts as $account)
             @php $type = $account->price_sell ? 'buy' : ($account->price_rent ? 'rent' : null) @endphp
             <x-account-card :account="$account" :type="$type" />
@@ -25,6 +25,10 @@
     @endif
 </div>
 @endsection
+
+
+
+
 
 
 

@@ -8,6 +8,7 @@
         ['name' => 'admin.rental-packages.index', 'label' => 'Rental', 'icon' => 'schedule'],
         ['name' => 'admin.reviews', 'label' => 'Reviews', 'icon' => 'star'],
         ['name' => 'admin.chat', 'label' => 'Support', 'icon' => 'contact_support'],
+        ['name' => 'admin.rentals', 'label' => 'Active Rentals', 'icon' => 'timer'],
         ['name' => 'admin.laporan', 'label' => 'Reports', 'icon' => 'assessment'],
     ];
 @endphp

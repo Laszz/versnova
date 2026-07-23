@@ -2,7 +2,7 @@
 
 @section('content')
 {{-- Hero --}}
-<section class="relative overflow-hidden">
+<section class="relative overflow-hidden" data-reveal>
     <div class="absolute inset-0 bg-gradient-to-br from-[#ff5357]/5 via-[var(--bg)] to-[var(--bg)]"></div>
     <div class="absolute top-20 right-0 w-[500px] h-[500px] bg-[#ff5357]/5 rounded-full blur-[120px]"></div>
     <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#ff5357]/3 rounded-full blur-[100px]"></div>
@@ -53,7 +53,7 @@
                     <div class="absolute inset-0 bg-[var(--accent-soft)] rounded-full blur-3xl"></div>
                     <div class="absolute inset-12 bg-gradient-to-br from-[#ff5357]/20 to-transparent rounded-full blur-2xl"></div>
                     <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="w-40 h-40 rounded-2xl bg-card border border-subtle flex items-center justify-center">
+                        <div class="w-40 h-40 rounded-2xl bg-card border border-subtle flex items-center justify-center" data-float>
                             <span style="font-family: 'Space Mono', monospace; font-size: 72px; font-weight: 700; color: #ff5357;">V</span>
                         </div>
                     </div>
@@ -84,9 +84,11 @@
 
     <div x-data="{ loaded: false }" x-init="setTimeout(() => loaded = true, 200)">
         <phantom-ui :loading="!loaded">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" data-stagger>
                 @forelse ($featured as $account)
-                    <x-account-card :account="$account" />
+                    <div data-stagger-item>
+                        <x-account-card :account="$account" />
+                    </div>
                 @empty
                     <div class="col-span-full text-center py-16">
                         <p class="text-secondary">Belum ada akun tersedia.</p>
@@ -228,8 +230,8 @@
             <p class="text-sm text-secondary mt-1">Mulai dalam 3 langkah mudah</p>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-6">
-            <div class="bg-card border border-subtle rounded-xl p-6 text-center hover:border-accent transition-all">
+        <div class="grid md:grid-cols-3 gap-6" data-stagger>
+            <div data-stagger-item class="bg-card border border-subtle rounded-xl p-6 text-center hover:border-accent transition-all">
                 <div class="w-12 h-12 rounded-xl bg-[var(--accent-soft)] flex items-center justify-center mx-auto mb-4">
                     <span class="material-symbols-outlined text-accent text-[24px]">search</span>
                 </div>
@@ -237,7 +239,7 @@
                 <p class="text-sm text-secondary leading-relaxed">Telusuri produk dan sewa, filter per game, cari akun impianmu.</p>
             </div>
 
-            <div class="bg-card border border-subtle rounded-xl p-6 text-center hover:border-accent transition-all">
+            <div data-stagger-item class="bg-card border border-subtle rounded-xl p-6 text-center hover:border-accent transition-all">
                 <div class="w-12 h-12 rounded-xl bg-[var(--accent-soft)] flex items-center justify-center mx-auto mb-4">
                     <span class="material-symbols-outlined text-accent text-[24px]">verified</span>
                 </div>
@@ -245,7 +247,7 @@
                 <p class="text-sm text-secondary leading-relaxed">Pembayaran via transfer, akun diamankan sampai konfirmasi.</p>
             </div>
 
-            <div class="bg-card border border-subtle rounded-xl p-6 text-center hover:border-accent transition-all">
+            <div data-stagger-item class="bg-card border border-subtle rounded-xl p-6 text-center hover:border-accent transition-all">
                 <div class="w-12 h-12 rounded-xl bg-[var(--accent-soft)] flex items-center justify-center mx-auto mb-4">
                     <span class="material-symbols-outlined text-accent text-[24px]">chat</span>
                 </div>

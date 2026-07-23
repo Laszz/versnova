@@ -2,6 +2,7 @@ import Alpine from 'alpinejs';
 window.Alpine = Alpine;
 Alpine.start();
 
+import './components/countdown';
 import Lenis from 'lenis';
 
 const lenis = new Lenis({

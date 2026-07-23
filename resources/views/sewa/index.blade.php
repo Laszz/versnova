@@ -3,7 +3,7 @@
 @section('title', 'Sewa Akun')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16" data-reveal>
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
             <h1 class="text-lg font-bold text-primary">Sewa Akun</h1>
@@ -24,9 +24,9 @@
         @endforeach
     </div>
     @endif
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4" data-stagger>
         @forelse ($accounts as $account)
-            <x-account-card :account="$account" type="rent" />
+            <div data-stagger-item><x-account-card :account="$account" type="rent" /></div>
         @empty
             <div class="col-span-full text-center py-20">
                 <span class="material-symbols-outlined text-5xl text-secondary block mb-4">schedule</span>
@@ -37,6 +37,10 @@
     <div class="mt-8">{{ $accounts->links() }}</div>
 </div>
 @endsection
+
+
+
+
 
 
 

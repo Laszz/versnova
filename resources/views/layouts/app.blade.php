@@ -27,6 +27,15 @@
 
         @include('layouts.footer')
     </div>
+
+    @if (session('toast'))
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)" class="fixed top-16 right-4 z-50 px-5 py-3 bg-card border border-accent/30 rounded-xl shadow-2xl backdrop-blur-xl text-sm text-primary max-w-sm">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-accent text-sm">check_circle</span>
+                <span>{{ session('toast') }}</span>
+            </div>
+        </div>
+    @endif
 </body>
 </html>
 

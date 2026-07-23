@@ -1,29 +1,26 @@
-document.addEventListener('DOMContentLoaded', function () {
+function updateIcons() {
     var moon = document.getElementById('moonIcon');
     var sun = document.getElementById('sunIcon');
-    var btn = document.getElementById('themeToggle');
+    if (!moon || !sun) return;
+    var isDark = document.documentElement.classList.contains('dark');
+    moon.classList.toggle('hidden', !isDark);
+    sun.classList.toggle('hidden', isDark);
+}
 
-    function updateIcons() {
+var btn = document.getElementById('themeToggle');
+if (btn) {
+    btn.addEventListener('click', function () {
         var isDark = document.documentElement.classList.contains('dark');
-        if (moon && sun) {
-            moon.classList.toggle('hidden', !isDark);
-            sun.classList.toggle('hidden', isDark);
+        if (isDark) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('versnova-theme', 'light');
+        } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('versnova-theme', 'dark');
         }
-    }
+        updateIcons();
+    });
+}
 
-    updateIcons();
-
-    if (btn) {
-        btn.addEventListener('click', function () {
-            var isDark = document.documentElement.classList.contains('dark');
-            if (isDark) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('versnova-theme', 'light');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('versnova-theme', 'dark');
-            }
-            updateIcons();
-        });
-    }
-});
+updateIcons();
+document.addEventListener('DOMContentLoaded', updateIcons);

@@ -54,6 +54,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('chat', [App\Http\Controllers\Admin\ChatController::class, 'index'])->name('admin.chat');
     Route::get('chat/{user}', [App\Http\Controllers\Admin\ChatController::class, 'show'])->name('admin.chat.show');
     Route::get('laporan', [App\Http\Controllers\Admin\LaporanController::class, 'index'])->name('admin.laporan');
+    Route::get('active-rentals', [App\Http\Controllers\Admin\RentalController::class, 'index'])->name('admin.rentals');
     Route::get('reviews', [App\Http\Controllers\Admin\ReviewController::class, 'index'])->name('admin.reviews');
     Route::post('reviews/{review}/approve', [App\Http\Controllers\Admin\ReviewController::class, 'approve'])->name('admin.reviews.approve');
     Route::post('reviews/{review}/reject', [App\Http\Controllers\Admin\ReviewController::class, 'reject'])->name('admin.reviews.reject');

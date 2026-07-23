@@ -3,7 +3,7 @@
 @section('title', $account->title)
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16" data-reveal>
     <div class="lg:grid lg:grid-cols-12 lg:gap-8 lg:items-start">
         <div class="lg:col-span-7 space-y-4">
             @php $images = $account->images->filter(fn($i) => $i->image_path); @endphp
@@ -171,4 +171,6 @@
     </div>
 </div>
 @endsection
+
+
 

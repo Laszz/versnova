@@ -21,10 +21,10 @@ class WishlistController extends Controller
 
         if ($wishlist) {
             $wishlist->delete();
-        } else {
-            $request->user()->wishlists()->create(['account_id' => $account->id]);
+            return back()->with('toast', 'Akun dihapus dari wishlist');
         }
 
-        return back();
+        $request->user()->wishlists()->create(['account_id' => $account->id]);
+        return back()->with('toast', 'Akun ditambahkan ke wishlist');
     }
 }

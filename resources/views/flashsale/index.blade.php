@@ -3,7 +3,7 @@
 @section('title', 'Flashsale')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16" data-reveal>
     {{-- Banner --}}
     <div class="relative overflow-hidden rounded-xl p-8 md:p-12 mb-8 text-center" style="background: linear-gradient(135deg, rgba(255,83,87,0.15), rgba(255,83,87,0.05)); border: 1px solid rgba(255,83,87,0.2);">
         <div class="absolute top-0 right-0 w-64 h-64 bg-[#ff5357]/5 rounded-full blur-[80px]"></div>
@@ -19,9 +19,9 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" data-stagger>
         @forelse ($flashsale as $account)
-            <x-account-card :account="$account" />
+            <div data-stagger-item><x-account-card :account="$account" /></div>
         @empty
             <div class="col-span-full text-center py-20">
                 <span class="material-symbols-outlined text-5xl text-secondary block mb-4">local_fire_department</span>
@@ -61,6 +61,10 @@
     });
 </script>
 @endsection
+
+
+
+
 
 
 
