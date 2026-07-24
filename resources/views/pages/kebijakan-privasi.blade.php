@@ -30,7 +30,7 @@
 
         <div class="bg-card border border-subtle rounded-xl p-6">
             <h2 class="text-sm font-semibold text-primary mb-2">5. Hak Anda</h2>
-            <p>Anda berhak mengakses, mengubah, atau menghapus data pribadi Anda kapan saja melalui halaman profil. Untuk pertanyaan lebih lanjut, hubungi kami melalui <a href="{{ route('chat') }}" class="text-accent hover:underline">halaman chat</a> atau email support@versnova.id.</p>
+            <p>Anda berhak mengakses, mengubah, atau menghapus data pribadi Anda kapan saja melalui halaman profil. Untuk pertanyaan lebih lanjut, hubungi kami melalui <a href="{{ route('chat') }}" class="text-accent hover:underline">halaman chat</a> atau email versnova@gmail.com</p>
         </div>
     </div>
 </div>

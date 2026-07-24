@@ -17,7 +17,7 @@
                 <h4 class="text-xs font-mono text-accent uppercase tracking-widest mb-4">Kontak</h4>
                 <ul class="space-y-2">
                     <li><a href="{{ route('chat') }}" class="text-sm text-secondary hover:text-accent transition-colors">Live Chat</a></li>
-                    <li><a href="mailto:support@versnova.id" class="text-sm text-secondary hover:text-accent transition-colors">support@versnova.id</a></li>
+                    <li><a href="mailto:versnova@gmail.com" class="text-sm text-secondary hover:text-accent transition-colors">versnova@gmail.com</a></li>
                 </ul>
             </div>
         </div>
